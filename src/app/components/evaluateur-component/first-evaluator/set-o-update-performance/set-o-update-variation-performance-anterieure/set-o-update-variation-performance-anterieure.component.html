@@ -1,0 +1,158 @@
+<div mat-dialog-content>
+    <div class="row justify-content-center">
+        <div class="col-sm-12" *ngIf="is_update_data == true">
+            <div class="my-3">
+                <h2 class="text-center text-uppercase lh-sm">
+                    VARIATIONS SUR LA PERFORMANCE ANTÉRIEURE (SUR LES TROIS DERNIÈRES ANNÉES)
+                </h2>
+            </div>
+            <div class="card mb-0">
+                <div class="card-body">
+                    <div [class]="'tab-content'">
+                        <div class="text-center">
+                            <div class="mb-3">
+                                <h3 class="text-center text-uppercase lh-sm">
+                                    <b class="text-warning">0{{ niv }}</b>.
+                                    <span class="ms-3">{{ niv == 1?'Variation en montant':'Variation en taux' }}</span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label for="date_debut">{{ year_start }}</mat-label>
+                                            <mat-select id="date_debut" [ngModel]="year_start" (selectionChange)="chooseYear($event, 1)">
+                                                <mat-option [value]="item.year" *ngFor="let item of _list_year">
+                                                    {{ item.year }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-6 col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label for="date_fin">{{ year_end }}</mat-label>
+                                            <mat-select id="date_fin" [ngModel]="year_end" (selectionChange)="chooseYear($event, 2)">
+                                                <mat-option [value]="item.year" *ngFor="let item of _list_year">
+                                                    {{ item.year }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-form-field appearance="outline" *ngIf="niv == 1">
+                                            <mat-label for="montant">Montant</mat-label>
+                                            <input type="number" min="0" matInput pattern="[0-9]" id="montant" [(ngModel)]="variation" required placeholder="variation ici...">
+                                            <mat-icon matSuffix>price_change</mat-icon>
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" *ngIf="niv == 2">
+                                            <mat-label for="taux">Taux</mat-label>
+                                            <input type="number" min="0" max="100" matInput pattern="[0-9]" id="taux" [(ngModel)]="variation" required placeholder="variation ici...">
+                                            <mat-icon matSuffix>humidity_percentage</mat-icon>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                        <div class="text-center my-3">
+                            <button mat-raised-button (click)="updateDataToDB()" color="primary">
+                                <mat-icon>done_all</mat-icon>
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 px-3 py-2" *ngIf="is_set_data == true">
+            <div class="my-3">
+                <h2 class="text-center text-uppercase lh-sm">
+                    VARIATIONS SUR LA PERFORMANCE ANTÉRIEURE (SUR LES TROIS DERNIÈRES ANNÉES)
+                </h2>
+            </div>
+            <div class="card mb-0">
+                <div class="card-body">
+                    <div [class]="'tab-content'">
+                        <div class="text-center">
+                            <div class="mb-3">
+                                <h3 class="text-center text-uppercase lh-sm">
+                                    <b class="text-warning">0{{ niv }}</b>.
+                                    <span class="ms-3">{{ niv == 1?'Variation en montant':'Variation en taux' }}</span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label for="date_debut">Selectionnez l'année de début</mat-label>
+                                            <mat-select id="date_debut" [ngModel]="year_start" (selectionChange)="chooseYear($event, 1)">
+                                                <mat-option [value]="item.year" *ngFor="let item of _list_year">
+                                                    {{ item.year }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-6 col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label for="date_fin">Selectionnez l'année de fin</mat-label>
+                                            <mat-select id="date_fin" [ngModel]="year_end" (selectionChange)="chooseYear($event, 2)">
+                                                <mat-option [value]="item.year" *ngFor="let item of _list_year">
+                                                    {{ item.year }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-form-field appearance="outline" *ngIf="niv == 1">
+                                            <mat-label for="montant">Montant</mat-label>
+                                            <input type="number" min="0" matInput pattern="[0-9]" id="montant" [(ngModel)]="variation" required placeholder="variation ici...">
+                                            <mat-icon matSuffix>price_change</mat-icon>
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" *ngIf="niv == 2">
+                                            <mat-label for="taux">Taux</mat-label>
+                                            <input type="number" min="0" max="100" matInput pattern="[0-9]" id="taux" [(ngModel)]="variation" required placeholder="variation ici...">
+                                            <mat-icon matSuffix>humidity_percentage</mat-icon>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                        <div class="text-center my-3">
+                            <button mat-raised-button (click)="updateDataToDB()" color="primary">
+                                <mat-icon>done_all</mat-icon>
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-raised-button (click)="close()" class="text-white bg-danger">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+        Fermer
+    </button>
+</div>

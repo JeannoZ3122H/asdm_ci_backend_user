@@ -1,0 +1,1759 @@
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="row">
+            <div class="col-sm-12 px-0">
+
+                <div class="text-center"
+                *ngIf="
+                project_data.status_etude == 1 &&
+               ( project_data.status_decisions_on == 1 ||
+                project_data.status_decisions_off == 1) &&
+                is_init_page == false
+                ">
+                    <i style="opacity: .3;" [ngClass]="project_data.status_decisions_on == 1?'fa fa-check-circle text-success fa-5x':'fa fa-check-circle text-danger fa-5x'"></i>
+                    <p class="my-2">
+                        <small [ngClass]="project_data.status_decisions_on == 1?'text-success text-uppercase fw-bolder':'text-danger text-uppercase fw-bolder'">
+                            Projet déjà traité
+                        </small>
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane active show" id="profile-1" role="tabpanel" aria-labelledby="profile-tab-1">
+                                <div class="card border-0 mb-0">
+                                    <div class="card-header text-bg-light">
+                                        <div class="row justify-content-center">
+                                            <div class="col-auto">
+                                                <h3 class="mb-0 fw-bolder text-dark text-uppercase">
+                                                    Détails du projet
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body px-0 pb-0">
+                                        <ul class="list-inline row py-0 my-0 justify-content-between">
+                                            <li class="list-inline-item col-auto mb-2" mat-button>
+                                                <span class="mx-2 fw-bolder text-dark fs-4"> Code du projet: </span>
+                                                <span class="fw-bolder fs-5">
+                                                #{{ project_data.project_code }}
+                                                </span>
+                                            </li>
+                                            <li class="list-inline-item col-auto" mat-button>
+                                                <button mat-button>
+                                                    <mat-icon>today</mat-icon>
+                                                    <span class="mx-1 text-dark fs-5">Date de soumission: </span>
+                                                    <span class="fw-bolder fs-5">{{ project_data.created_at | date: 'dd MMMM yyyy' }}</span>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <hr class="m-2">
+
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">I</b>.
+                                                    <b class="text-white text-uppercase fs-4">INFORMATIONS SUR LE SOUMISSIONNAIRE</b>
+                                                </mat-card-title>
+                                                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-8 col-12">
+                                                            <ul class="list-group list-group-flush" style="padding-left: 16px">
+                                                                <li *ngIf="project_data.business" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">{{ project_data.type_category_code == "TC-002"?'Organisation':'Entreprise' }}</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.business }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.directeur_general" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">{{ project_data.type_category_code == "TC-002"?'Président':'Directeur Général ou Gérant' }}</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.directeur_general }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.actionnaire_associes" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Actionnaire ou associé</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.actionnaire_associes }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.titre_publication" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Titre de publication</b>:
+                                                                    <span class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.titre_publication }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.support_diffusion" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Support de diffusion</b>:
+                                                                    <span class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.support_diffusion }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.chef_projet" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Chef de projet</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.chef_projet }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.contact_chef_projet" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Contact du chef de projet</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.contact_chef_projet }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="user_email" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Email de l'{{ project_data.type_category_code == "TC-002"?'organisation':'entreprise' }}</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ user_email }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.centre_impots" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Centre d'impôt</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.centre_impots }}
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-lg-4 col-12">
+                                                            <ul class="list-group list-group-flush ps-3 ps-lg-0">
+                                                                <li *ngIf="project_data.date_creation" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Date de création</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.date_creation | date: 'dd MMMM yyyy' }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.effectif" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Effectif</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.effectif }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.web_site_url" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Site web</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.web_site_url }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.contacts" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Contact de l'{{ project_data.type_category_code == "TC-002"?'organisation':'entreprise' }}</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.contacts }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.address_postal" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Adresse postale</b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.address_postal }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.address" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Adresse géographique </b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.address }}
+                                                                    </span>
+                                                                </li>
+                                                                <li *ngIf="project_data.capital_social" class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Capital social </b>:
+                                                                    <span class="ms-3 mt-2">
+                                                                        {{ project_data.capital_social | currency: 'XOF':'symbol':'1.2' }}
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <ul class="list-group list-group-flush" style="padding-left: 16px">
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Sous-secteur d'activité</b>:
+                                                                    <span class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.category_projet }}
+                                                                    </span>
+                                                                </li>
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Objet sociale de l'{{ project_data.type_category_code == "TC-002"?'organisation':'entreprise' }}</b>:
+                                                                    <div class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.raison_social }}
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">II</b>.
+                                                    <b class="text-white text-uppercase fs-4">Description du projet</b>
+                                                </mat-card-title>
+                                                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <!-- gene. projet -->
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge">
+                                                        <b class="text-warning text-white">A</b>.
+                                                        <b class="text-uppercase text-white">Généralités</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <ul class="list-group list-group-flush" style="padding-left: 16px">
+                                                                <li class="list-group-item ps-0 mb-2">
+                                                                    <b class="">Titre du projet</b>:
+                                                                    <div class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.titre_projet }}
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item ps-0 mb-2">
+                                                                    <b class="">Objet du projet</b>:
+                                                                    <div class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.objet_projet }}
+                                                                    </div>
+
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.comments_objet_projet != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.comments_objet_projet)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item ps-0 mb-2">
+                                                                    <b class="">Description du projet</b>:
+                                                                    <div class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.description_projet }}
+                                                                    </div>
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.comments_description_projet != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.comments_description_projet)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item ps-0 mb-2">
+                                                                    <b class="">Justification du projet</b>:
+                                                                    <div class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.justification_projet }}
+                                                                    </div>
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.comments_justification_projet != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.comments_justification_projet)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item ps-0 mb-2">
+                                                                    <b class="">Objectif général du projet</b>:
+                                                                    <div class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.objectif_general }}
+                                                                    </div>
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.comments_objectif_general != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.comments_objectif_general)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item ps-0 mb-2" *ngIf="project_data.domaine_activity">
+                                                                    <b class="">Domaine d'activité du projet</b>:
+                                                                    <div class="ms-3 mt-2" style="text-indent: 5mm;">
+                                                                        {{ project_data.domaine_activity }}
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item ps-0 mb-2">
+                                                                    <b class="">Durée du projet</b>:
+                                                                    <span class="ms-2">
+                                                                        {{ project_data.deadline }}mois
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- objectif spec. -->
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge">
+                                                        <b class="text-warning text-white">B</b>.
+                                                        <b class="text-uppercase text-white">Objectif spécifique</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <ul class="list-group list-group-flush" style="padding-left: 16px">
+                                                                <li class="list-group-item ps-0 mb-2" *ngFor="let item of objectif_specifique; let i=index">
+                                                                    <p class="ms-3 mt-2">
+                                                                        <b class="">0{{ i+1 }}</b>.
+                                                                        <span class="ms-2">
+                                                                            {{ item.objectif_specifique }}
+                                                                        </span>
+                                                                    </p>
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="item.comments != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- details request att. -->
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge">
+                                                        <b class="text-warning text-white">C</b>.
+                                                        <b class="text-uppercase text-white">DÉTAIL DE LA REQUÊTE</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <div class="table-responsive px-0 table-striped">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">#ID</th>
+                                                                            <th scope="col">LIBELLÉ</th>
+                                                                            <th scope="col">QUANTITÉ</th>
+                                                                            <th scope="col">PRIX UNITAIRE</th>
+                                                                            <th scope="col">MONTANT</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody *ngFor="let item of detail_request_data; let i=index; let last=last">
+                                                                        <tr>
+                                                                            <td  class="text-wrap">{{ i+1 }}</td>
+                                                                            <td class="text-wrap">{{ item.libelle_detail_request }}</td>
+                                                                            <td class="text-wrap">{{ item.quantite_detail_request }}</td>
+                                                                            <td class="text-wrap">{{ item.prix_unitaire_detail_request | currency: 'XOF':'symbol':'1.2' }}</td>
+                                                                            <td class="text-wrap">{{ item.montant_detail_request | currency: 'XOF':'symbol':'1.2' }}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="item.comments != null">
+                                                                            <th colspan="5" class="text-start">
+                                                                                <div class="ms-3 mt-2 p-1 alert bg-light text-wrap">
+                                                                                    <h6 class="mb-0">
+                                                                                        <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                                    </h6>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                    <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                </div>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th colspan="4"class="text-start text-uppercase">COÛT TOTAL DU PROJET</th>
+                                                                            <th colspan="2" class="fw-bolder">{{ total_montant_detail_request | currency: 'XOF':'symbol':'1.2' }}</th>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card><mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">III</b>.
+                                                    <b class="text-white text-uppercase fs-4">CONDITIONS ET PLAN DE FINANCEMENT SOUHAITÉS</b>
+                                                </mat-card-title>
+                                                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <!-- CONDITION DE FINANCEMENT -->
+                                                <div class="container-fluid px-0 mt-2" *ngIf="condition_financement_data != null">
+                                                    <h6 class="bg-warning badge">
+                                                        <b class="text-warning text-white">A</b>.
+                                                        <b class="text-uppercase text-white">CONDITION DE FINANCEMENT</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <div class="table-responsive px-0 table-striped">
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th scope="row">Montant du prêt</th>
+                                                                            <td class="text-wrap">
+                                                                                <li class="list-group-item border-1 mb-2 ps-0">
+                                                                                    <span class="ms-2">
+                                                                                        {{ condition_financement_data.montant_pret_condition_financement | currency: 'XOF':'symbol':'1.2' }}
+                                                                                    </span>
+                                                                                </li>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">Durée de remboursement du prêt</th>
+                                                                            <td class="text-wrap" *ngIf="condition_financement_data.dure_remboursement_condition_financement != null">
+                                                                                <li *ngIf="is_edit_condition_financement == false" class="list-group-item border-1 mb-2 ps-0">
+                                                                                    <span class="ms-2" *ngIf="condition_financement_data.dure_remboursement_condition_financement != null">
+                                                                                        {{ condition_financement_data.dure_remboursement_condition_financement +'an(s)' }}
+                                                                                    </span>
+                                                                                    <span class="ms-2" *ngIf="condition_financement_data.dure_remboursement_condition_financement == null">
+                                                                                        Aucun
+                                                                                    </span>
+                                                                                </li>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">Taux d'intérêt</th>
+                                                                            <td class="text-wrap">
+                                                                                <li class="list-group-item border-1 mb-2 ps-0">
+                                                                                    <span class="ms-2" *ngIf="condition_financement_data.taux_interet_condition_financement != null">
+                                                                                        {{ condition_financement_data.taux_interet_condition_financement +'%' }}
+                                                                                    </span>
+                                                                                    <span class="ms-2" *ngIf="condition_financement_data.taux_interet_condition_financement == null">
+                                                                                        Aucun
+                                                                                    </span>
+                                                                                </li>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">Différé</th>
+                                                                            <td class="text-wrap">
+                                                                                <li class="list-group-item border-1 mb-2 ps-0">
+                                                                                    <span class="ms-2" *ngIf="condition_financement_data.differe_condition_financement != null">
+                                                                                        {{ condition_financement_data.differe_condition_financement | currency: 'XOF':'symbol':'1.2' }}
+                                                                                    </span>
+                                                                                    <span class="ms-2" *ngIf="condition_financement_data.differe_condition_financement == null">
+                                                                                        Aucune
+                                                                                    </span>
+                                                                                </li>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <ul class="list-group list-group-flush ps-0">
+                                                                <li class="list-group-item border-1 mb-2 ps-3">
+                                                                    <b class="">Garanties proposées par le promoteur</b>:
+                                                                    <div class="ms-3 mt-2" [innerHTML]="condition_financement_data.garantie_proposee" style="text-indent: 5mm;">
+                                                                    </div>
+                                                                </li>
+
+                                                                <li class="list-group-item border-1 mb-2 ps-0">
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.condition_financement_comments != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.condition_financement_comments)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- PLAN DE FINANCEMENT -->
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge ms-lg-2">
+                                                        <b class="text-warning text-white">B</b>.
+                                                        <b class="text-uppercase text-white">PLAN DE FINANCEMENT</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <div class="table-responsive px-0 table-striped">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">#ID</th>
+                                                                            <th scope="col">DÉSIGNATION</th>
+                                                                            <th scope="col">MONTANT</th>
+                                                                            <th scope="col">TAUX</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody *ngFor="let item of plan_financement_data; let i=index; let last=last">
+                                                                        <tr>
+                                                                            <th scope="row">{{ i+1 }}</th>
+                                                                            <td class="text-wrap">{{ item.designation_plan_financement }}</td>
+                                                                            <td class="text-wrap">{{ item.montant_plan_financement | currency: 'XOF':'symbol':'1.2' }}</td>
+                                                                            <td class="text-wrap">{{ item.taux_plan_financement+' %' }}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="last">
+                                                                            <th colspan="2"class="text-end">Total</th>
+                                                                            <th class="fw-bolder">{{ total_montant_plan_financement | currency: 'XOF':'symbol':'1.2' }}</th>
+                                                                            <th class="fw-bolder">{{ total_taux_plan_financement+' %' }}</th>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td colspan="4" class="text-wrap">
+                                                                                <li class="list-group-item border-1 mb-2 ps-0">
+                                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.plan_financement_comments != null">
+                                                                                        <h6 class="mb-0">
+                                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                                        </h6>
+                                                                                        <b class="text-warning">❝***********❞</b>
+                                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.plan_financement_comments)"></div>
+                                                                                        <b class="text-warning">❝***********❞</b>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">IV</b>.
+                                                    <b class="text-white text-uppercase fs-4">
+                                                        ETUDE FINANCIÈRE
+                                                    </b>
+                                                </mat-card-title>
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <!-- Generalite -->
+                                                <div class="container-fluid px-0 mt-2 row justify-content-between">
+                                                    <div class="col-12 px-0">
+                                                        <h6 class="bg-warning badge ms-lg-2">
+                                                            <b class="text-warning text-white">A</b>.
+                                                            <b class="text-uppercase text-white">Généralités</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <div class="table-responsive px-0 table-striped">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">#ID</th>
+                                                                                <th scope="col">NOM DU DOCUMENT</th>
+                                                                                <th scope="col">ACTIONS</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody *ngFor="let item of etude_financiere_docs_data; let i=index; let last=last">
+                                                                            <tr>
+                                                                                <th scope="row">{{ i+1 }}</th>
+                                                                                <td class="text-wrap">{{ item.etude_financiere_docs_libelle }}</td>
+                                                                                <td class="text-wrap">
+                                                                                    <a href="{{ item.etude_financiere_docs }}" target="_blank" mat-raised-button color="primary">
+                                                                                        <mat-icon>visibility</mat-icon> voir
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr *ngIf="item.comments != null">
+                                                                                <th colspan="3" class="text-center">
+                                                                                    <div class="ms-3 mt-2 p-1 alert bg-light">
+                                                                                        <h6 class="mb-0">
+                                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                                        </h6>
+                                                                                        <b class="text-warning">❝***********❞</b>
+                                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                                        <b class="text-warning">❝***********❞</b>
+                                                                                    </div>
+                                                                                </th>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                        <tbody *ngIf="etude_financiere_docs_data.length == 0">
+                                                                            <tr>
+                                                                                <th colspan="3" class="text-center">
+                                                                                    <div class="text-center">
+                                                                                        <i class="fa fa-ban text-danger fa-2x"></i>
+                                                                                        <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                                                                    </div>
+                                                                                </th>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- performance anterieure -->
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge ms-lg-2">
+                                                        <b class="text-warning text-white">B</b>.
+                                                        <b class="text-uppercase text-white"> Performance antérieure de l’{{ project_data.type_category_code == "TC-002"?'organisation':'entreprise' }} (Sur les trois dernières années)</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <div class="table-responsive px-0 table-striped">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">#ID</th>
+                                                                            <th scope="col">ÉLÉMENT DE PERFORMANCE</th>
+                                                                            <th scope="col">ANNÉE N-1</th>
+                                                                            <th scope="col">ANNÉE N-2</th>
+                                                                            <th scope="col">ANNÉE N-3</th>
+                                                                            <th scope="col" class="text-center">
+                                                                                    VARIATION <br>
+                                                                                <small>(EN MONTANT)</small>
+                                                                            </th>
+                                                                            <th scope="col" class="text-center">
+                                                                                    VARIATION <br>
+                                                                                <small>(EN TAUX)</small>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of performance_anterieur_data; let i=index; let last=last">
+                                                                            <th scope="row">{{ i+1 }}</th>
+                                                                            <td class="text-start">{{ item.element_performance }}</td>
+                                                                            <td *ngFor="let detail of item.detail_performance_anterieur" class="text-center">
+                                                                                <div class="">
+                                                                                    <thead>
+                                                                                        <tr class="py-1">
+                                                                                            <th class="py-1" scope="col">{{ detail.year }}</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="py-1">
+                                                                                            <td class="py-1 fw-bolder fst-italic">{{ detail.montant | currency: 'XOF':'symbol':'1.2' }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <div class="" *ngIf="item.variation_1 != null">
+                                                                                    <thead>
+                                                                                        <tr class="py-1">
+                                                                                            <th class="py-1" scope="col">{{ convertVariation(item.variation_1).year_start+'-'+convertVariation(item.variation_1).year_end }}</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="py-1">
+                                                                                            <td class="py-1 fw-bolder fst-italic">{{ convertVariation(item.variation_1).variation | currency: 'XOF':'symbol':'1.2' }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <div class="" *ngIf="item.variation_2 != null">
+                                                                                    <thead>
+                                                                                        <tr class="py-1">
+                                                                                            <th class="py-1" scope="col">{{ convertVariation(item.variation_2).year_start+'-'+convertVariation(item.variation_2).year_end }}</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="py-1">
+                                                                                            <td class="py-1 fw-bolder fst-italic">{{ convertVariation(item.variation_2).variation+'%' }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="text-start" colspan="8">
+                                                                                <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.performance_anterieure_comments != null">
+                                                                                    <h6 class="mb-0">
+                                                                                        <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                                    </h6>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                    <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.performance_anterieure_comments)"></div>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- encours endettement -->
+                                                 <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge">
+                                                        <b class="text-warning text-white">C</b>.
+                                                        <b class="text-uppercase text-white">Encours d’endettement</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+
+                                                        <div class="col-lg-6 col-12">
+                                                            <ul class="list-group list-group-flush" style="padding-left: 16px">
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Montant de la dette</b>:
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.montant_dette">
+                                                                        {{ encours_endettement_data.montant_dette | currency: 'XOF':'symbol':'1.2' }}
+                                                                    </span>
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.montant_dette == null">
+                                                                        {{ '0' | currency: 'XOF':'symbol':'1.2' }}
+                                                                    </span>
+                                                                </li>
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Echéance</b>:
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.echeance_dette">
+                                                                        {{ encours_endettement_data.echeance_dette | date: 'dd MMMM yyyy' }}
+                                                                    </span>
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.echeance_dette == null">
+                                                                        Aucun
+                                                                    </span>
+                                                                </li>
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Encours</b>:
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.encours_dette">
+                                                                        {{ encours_endettement_data.encours_dette | currency: 'XOF':'symbol':'1.2' }}
+                                                                    </span>
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.encours_dette == null">
+                                                                        {{ '0' | currency: 'XOF':'symbol':'1.2' }}
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="col-lg-6 col-12">
+                                                            <ul class="list-group list-group-flush ps-0 ps-lg-3">
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Date de mise en place</b>:
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.date_mise_en_place">
+                                                                        {{ encours_endettement_data.date_mise_en_place | date: 'dd MMMM yyyy' }}
+                                                                    </span>
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.date_mise_en_place == null">
+                                                                        Aucun
+                                                                    </span>
+                                                                </li>
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Dernière échéances</b>:
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.derniere_echeance">
+                                                                        {{ encours_endettement_data.derniere_echeance | date: 'dd MMMM yyyy' }}
+                                                                    </span>
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.derniere_echeance == null">
+                                                                        Aucun
+                                                                    </span>
+                                                                </li>
+                                                                <li class="list-group-item border-1 ps-3 mb-2">
+                                                                    <b class="">Etablissement financier</b>:
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.etablissement_financier">
+                                                                        {{ encours_endettement_data.etablissement_financier }}
+                                                                    </span>
+                                                                    <span class="ms-3 mt-2" *ngIf="encours_endettement_data.etablissement_financier == null">
+                                                                        Aucun
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-12" *ngIf="encours_endettement_data.montant_dette">
+                                                            <ul class="list-group list-group-flush ps-0 ps-lg-3">
+                                                                <li class="list-group-item border-1 mb-2 ps-0">
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.encours_endettement_comments != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.encours_endettement_comments)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                 <!-- performance projet -->
+                                                 <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge ms-lg-2">
+                                                        <b class="text-warning text-white">D</b>.
+                                                        <b class="text-uppercase text-white"> Performance du projet</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <div class="table-responsive px-0 table-striped">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">#ID</th>
+                                                                            <th scope="col">ÉLÉMENT DE PERFORMANCE</th>
+                                                                            <th scope="col">ANNÉE 1</th>
+                                                                            <th scope="col">ANNÉE 2</th>
+                                                                            <th scope="col">ANNÉE 3</th>
+                                                                            <th scope="col">ANNÉE 4</th>
+                                                                            <th scope="col">ANNÉE 5</th>
+                                                                            <th scope="col" class="text-center">
+                                                                                    VARIATION <br>
+                                                                                <small>(EN MONTANT)</small>
+                                                                            </th>
+                                                                            <th scope="col" class="text-center">
+                                                                                    VARIATION <br>
+                                                                                <small>(EN TAUX)</small>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of performance_projet_data; let i=index; let last=last">
+                                                                            <th scope="row">{{ i+1 }}</th>
+                                                                            <td class="text-start">{{ item.element_performance_projet }}</td>
+                                                                            <td *ngFor="let detail of item.detail_performance_projet" class="text-center">
+                                                                                <div class="">
+                                                                                    <thead>
+                                                                                        <tr class="py-1">
+                                                                                            <th class="py-1" scope="col">{{ detail.year }}</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="py-1">
+                                                                                            <td class="py-1 fw-bolder fst-italic">{{ detail.montant | currency: 'XOF':'symbol':'1.2' }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <div class="">
+                                                                                    <thead>
+                                                                                        <tr class="py-1">
+                                                                                            <th class="py-1" scope="col">{{ convertVariation(item.variation_1).year_start+'-'+convertVariation(item.variation_1).year_end }}</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="py-1">
+                                                                                            <td class="py-1 fw-bolder fst-italic">{{ convertVariation(item.variation_1).variation | currency: 'XOF':'symbol':'1.2' }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <div class="">
+                                                                                    <thead>
+                                                                                        <tr class="py-1">
+                                                                                            <th class="py-1" scope="col">{{ convertVariation(item.variation_2).year_start+'-'+convertVariation(item.variation_2).year_end }}</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="py-1">
+                                                                                            <td class="py-1 fw-bolder fst-italic">{{ convertVariation(item.variation_2).variation+'%' }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="text-start" colspan="10">
+                                                                                <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.performance_project_comments != null">
+                                                                                    <h6 class="mb-0">
+                                                                                        <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                                    </h6>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                    <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.performance_project_comments)"></div>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+
+                                        <!-- swot -->
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">V</b>.
+                                                    <b class="text-white text-uppercase fs-4">
+                                                        ANALYSE SWOT
+                                                        <span class="ms-2 text-capitalize">
+                                                            (Forces, Faiblesses, Opportunités & Menaces)
+                                                        </span>
+                                                    </b>
+                                                </mat-card-title>
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <div class="container-fluid px-0 mt-2 row justify-content-between">
+                                                    <!-- Force -->
+                                                    <div class="col-lg-6 col-12 px-0">
+                                                        <h6 class="bg-warning badge ms-lg-2">
+                                                            <b class="text-warning text-white">A</b>.
+                                                            <b class="text-uppercase text-white">Forces</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <ul class="list-group list-group-flush" style="padding-left: 16px">
+
+                                                                    <li class="list-group-item border-1 ps-0 mb-2" *ngFor="let item of swot_force; let i=index">
+                                                                        <p class="ms-3 mt-2">
+                                                                            <b class="">0{{ i+1 }}</b>.
+                                                                            <span class="ms-2">
+                                                                                {{ item.strengths }}
+                                                                            </span>
+                                                                        </p>
+
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="item.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Faiblesses -->
+                                                    <div class="col-lg-6 col-12 px-0">
+                                                        <h6 class="bg-warning badge">
+                                                            <b class="text-warning text-white">B</b>.
+                                                            <b class="text-uppercase text-white">Faiblesses</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <ul class="list-group list-group-flush" style="padding-left: 16px">
+
+                                                                    <li class="list-group-item border-1 ps-0 mb-2" *ngFor="let item of swot_faiblesse; let i=index">
+                                                                        <p class="ms-3 mt-2">
+                                                                            <b class="">0{{ i+1 }}</b>.
+                                                                            <span class="ms-2">
+                                                                                {{ item.weakness }}
+                                                                            </span>
+                                                                        </p>
+
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="item.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Opportunités -->
+                                                    <div class="col-lg-6 col-12 px-0">
+                                                        <h6 class="bg-warning badge ms-lg-2">
+                                                            <b class="text-warning text-white">C</b>.
+                                                            <b class="text-uppercase text-white">Opportunités</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <ul class="list-group list-group-flush" style="padding-left: 16px">
+
+                                                                    <li class="list-group-item border-1 ps-0 mb-2" *ngFor="let item of swot_opportunity; let i=index">
+                                                                        <p class="ms-3 mt-2">
+                                                                            <b class="">0{{ i+1 }}</b>.
+                                                                            <span class="ms-2">
+                                                                                {{ item.opportunity }}
+                                                                            </span>
+                                                                        </p>
+
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="item.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Menaces -->
+                                                    <div class="col-lg-6 col-12 px-0">
+                                                        <h6 class="bg-warning badge">
+                                                            <b class="text-warning text-white">D</b>.
+                                                            <b class="text-uppercase text-white">Menaces</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <ul class="list-group list-group-flush" style="padding-left: 16px">
+
+                                                                    <li class="list-group-item border-1 ps-0 mb-2" *ngFor="let item of swot_menace; let i=index">
+                                                                        <p class="ms-3 mt-2">
+                                                                            <b class="">0{{ i+1 }}</b>.
+                                                                            <span class="ms-2">
+                                                                                {{ item.threats }}
+                                                                            </span>
+                                                                        </p>
+
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="item.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+                                        <!-- contre swot -->
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-warning">
+                                                <mat-card-title>
+                                                    <b class="text-white fs-4">VI</b>.
+                                                    <b class="text-white text-uppercase fs-4">
+                                                        CONTRE ANALYSE SWOT
+                                                        <span class="ms-2 text-capitalize">
+                                                            (Forces, Faiblesses, Opportunités & Menaces)
+                                                        </span>
+                                                    </b>
+                                                </mat-card-title>
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+
+                                                <div class="container-fluid px-0 mt-2 row justify-content-between">
+
+                                                    <!-- Force -->
+                                                    <div class="col-lg-6 col-12 p-2">
+                                                        <h6 class="bg-warning badge ms-lg-2">
+                                                            <b class="text-warning text-white">A</b>.
+                                                            <b class="text-uppercase text-white">Forces</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <div class="">
+                                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                                        <ngx-editor [editor]="editor_contre_swot_stengths" [(ngModel)]="html_contre_swot_stengths" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                                    </div>
+                                                                </div>
+                                                                <ul class="list-group list-group-flush mt-3">
+                                                                    <li class="list-group-item border-1 ps-0 mb-2">
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="contre_analyse_swot_force_data.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(contre_analyse_swot_force_data.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Faiblesses -->
+                                                    <div class="col-lg-6 col-12 p-2">
+                                                        <h6 class="bg-warning badge">
+                                                            <b class="text-warning text-white">B</b>.
+                                                            <b class="text-uppercase text-white">Faiblesses</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <div class="">
+                                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                                        <ngx-editor [editor]="editor_contre_swot_weakness" [(ngModel)]="html_contre_swot_weakness" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                                    </div>
+                                                                </div>
+                                                                <ul class="list-group list-group-flush mt-3">
+                                                                    <li class="list-group-item border-1 ps-0 mb-2">
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="contre_analyse_swot_faiblesse_data.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(contre_analyse_swot_faiblesse_data.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Opportunités -->
+                                                    <div class="col-lg-6 col-12 p-2">
+                                                        <h6 class="bg-warning badge ms-lg-2">
+                                                            <b class="text-warning text-white">C</b>.
+                                                            <b class="text-uppercase text-white">Opportunités</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <div class="">
+                                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                                        <ngx-editor [editor]="editor_contre_swot_opportunity" [(ngModel)]="html_contre_swot_opportunity" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                                    </div>
+                                                                </div>
+                                                                <ul class="list-group list-group-flush mt-3">
+                                                                    <li class="list-group-item border-1 ps-0 mb-2">
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="contre_analyse_swot_opportunity_data.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(contre_analyse_swot_opportunity_data.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Menaces -->
+                                                    <div class="col-lg-6 col-12 p-2">
+                                                        <h6 class="bg-warning badge">
+                                                            <b class="text-warning text-white">D</b>.
+                                                            <b class="text-uppercase text-white">Menaces</b>
+                                                        </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <div class="">
+                                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                                        <ngx-editor [editor]="editor_contre_swot_threats" [(ngModel)]="html_contre_swot_threats" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                                    </div>
+                                                                </div>
+                                                                <ul class="list-group list-group-flush mt-3">
+                                                                    <li class="list-group-item border-1 ps-0 mb-2">
+                                                                        <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="contre_analyse_swot_menace_data.comments != null">
+                                                                            <h6 class="mb-0">
+                                                                                <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                            </h6>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                            <div class="ps-4" role="alert" [innerHTML]="sanitazedData(contre_analyse_swot_menace_data.comments)"></div>
+                                                                            <b class="text-warning">❝***********❞</b>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+                                        <!-- impact -->
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">VII</b>.
+                                                    <b class="text-white text-uppercase fs-4">Impacts du projet</b>
+                                                </mat-card-title>
+                                                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <!-- Impacts du projet -->
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <ul class="list-group list-group-flush" style="padding-left: 16px">
+
+                                                                <li *ngIf="impact_project.impact_business != undefined" class="list-group-item ps-0 mb-3">
+                                                                    <b class="">Pour l’{{ user_data.type_category_code == 'TC-001'?'entreprise':'organisation' }}</b>:
+                                                                    <div class="ms-3 mt-2" [innerHTML]="impact_project.impact_business" style="text-indent: 5mm;">
+                                                                    </div>
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="impact_project.comments_impact_business != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(impact_project.comments_impact_business)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                                <li *ngIf="impact_project.impact_sous_secteur != undefined" class="list-group-item ps-0 mb-3">
+                                                                    <b class="">Pour le sous-secteur</b>:
+                                                                    <div class="ms-3 mt-2" [innerHTML]="impact_project.impact_sous_secteur" style="text-indent: 5mm;">
+                                                                    </div>
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="impact_project.comments_impact_sous_secteur != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(impact_project.comments_impact_sous_secteur)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+                                                                <li *ngIf="impact_project.impact_secteur != undefined" class="list-group-item ps-0 mb-3">
+                                                                    <b class="">Pour le secteur</b>:
+                                                                    <div class="ms-3 mt-2" [innerHTML]="impact_project.impact_secteur" style="text-indent: 5mm;">
+                                                                    </div>
+                                                                    <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="impact_project.comments_impact_secteur_medias != null">
+                                                                        <h6 class="mb-0">
+                                                                            <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                        </h6>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                        <div class="ps-4" role="alert" [innerHTML]="sanitazedData(impact_project.comments_impact_secteur_medias)"></div>
+                                                                        <b class="text-warning">❝***********❞</b>
+                                                                    </div>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+                                        <!-- indicateur -->
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-warning">
+                                                <mat-card-title>
+                                                    <b class="text-white fs-4">VIII</b>.
+                                                    <b class="text-white text-uppercase fs-4">
+                                                        INDICATEUR DE PERFORMANCE
+                                                    </b>
+                                                </mat-card-title>
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <div class="container-fluid px-0 mt-2 row justify-content-between">
+                                                    <div class="col-lg-12 col-12 p-1">
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-12">
+                                                                <div class="">
+                                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                                        <ngx-editor [editor]="editor_indicateur_performance" [(ngModel)]="html_indicateur_performance" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="ms-3 mt-2 p-1 alert bg-light" *ngIf="project_data.indicateur_performance_comments != null">
+                                                                    <h6 class="mb-0">
+                                                                        <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                    </h6>
+                                                                    <b class="text-warning">❝***********❞</b>
+                                                                    <div class="ps-4" role="alert" [innerHTML]="sanitazedData(project_data.indicateur_performance_comments)"></div>
+                                                                    <b class="text-warning">❝***********❞</b>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">IX</b>.
+                                                    <b class="text-white text-uppercase fs-4">
+                                                        PLAN DE MISE EN ŒUVRE DU PROJET
+                                                    </b>
+                                                </mat-card-title>
+                                                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+
+                                                <!-- MISE EN ŒUVRE DU PROJET -->
+                                                <div class="container-fluid px-0 mt-2">
+                                                    <h6 class="bg-warning badge ms-lg-2">
+                                                        <b class="text-warning text-white">D</b>.
+                                                        <b class="text-uppercase text-white">MISE EN ŒUVRE DU PROJET</b>
+                                                    </h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12">
+                                                            <div class="table-responsive px-0 table-striped">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">#ID</th>
+                                                                            <th scope="col">ACTION</th>
+                                                                            <th scope="col">MOIS</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody *ngFor="let item of planning; let i=index; let last=last">
+                                                                        <tr>
+                                                                            <td class="">{{ i+1 }}</td>
+                                                                            <td class="text-wrap">{{ item.action_planning }}</td>
+                                                                            <td class="">{{ item.date_planning | date: 'dd MMMM yyyy' }}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="item.comments != null">
+                                                                            <td colspan="3">
+                                                                                <div class="ms-3 mt-2 p-1 alert bg-light">
+                                                                                    <h6 class="mb-0">
+                                                                                        <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                                    </h6>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                    <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                                    <b class="text-warning">❝***********❞</b>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">X</b>.
+                                                    <b class="text-white text-uppercase fs-4">
+                                                        Liste des documents déposés
+                                                    </b>
+                                                </mat-card-title>
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-12">
+                                                        <div class="table-responsive px-0 table-striped">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">#ID</th>
+                                                                        <th scope="col">NOM DU DOCUMENT</th>
+                                                                        <th scope="col">Voir</th>
+                                                                        <th scope="col">Statut</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let item of doc_list; let i=index; let last=last">
+                                                                        <th scope="row">{{ i+1 }}</th>
+                                                                        <td class="text-wrap">{{ item.project_docs_name }}</td>
+                                                                        <td class="text-wrap">
+                                                                            <a href="{{ item.project_docs }}" target="_blank" mat-raised-button color="primary">
+                                                                                <mat-icon>visibility</mat-icon>
+                                                                                Voir
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <button class="btn bg-success my-0" *ngIf="item.status_on == 1">
+                                                                                <i class="fa fa-check text-white" aria-hidden="true"></i>
+                                                                            </button>
+                                                                            <button *ngIf="item.status_off == 1" class="btn bg-danger my-0">
+                                                                                <i class="fa fa-close text-white" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="doc_list.length == 0">
+                                                                        <th colspan="4" class="text-center">
+                                                                            <div class="text-center">
+                                                                                <i class="fa fa-ban text-danger fa-2x"></i>
+                                                                                <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                                                            </div>
+                                                                        </th>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <mat-card class="container mt-3">
+                                                    <mat-card-content>
+                                                        <div class="container mt-3">
+                                                            <h3 class="text-center text-uppercase text-warning">
+                                                                Vérification & Authentification du dossier
+                                                            </h3>
+                                                        </div>
+                                                        <div class="container mt-3">
+                                                            <div class="">
+                                                                <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                                    <ngx-editor [editor]="editor_dossier_comments" [(ngModel)]="html_dossier_comments" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-card-content>
+                                                </mat-card>
+                                            </mat-card-content>
+                                        </mat-card>
+
+                                        <mat-card class="my-2">
+                                            <mat-card-header class="bg-success">
+                                                <mat-card-title>
+                                                    <b class="text-warning fs-4">XI</b>.
+                                                    <b class="text-white text-uppercase fs-4">
+                                                    Liste des pièces justificatives
+                                                    </b>
+                                                </mat-card-title>
+                                            </mat-card-header>
+                                            <hr class="mt-0">
+                                            <mat-card-content>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-12">
+                                                        <div class="table-responsive px-0 table-striped">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">#ID</th>
+                                                                        <th scope="col">NOM DU DOCUMENT</th>
+                                                                        <th scope="col">ACTIONS</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody *ngFor="let item of piece_jointe; let i=index; let last=last">
+                                                                    <tr>
+                                                                        <th scope="row">{{ i+1 }}</th>
+                                                                        <td class="text-wrap">{{ item.libelle_piece_jointe }}</td>
+                                                                        <td class="text-wrap">
+                                                                            <a href="{{ item.piece_jointe_file }}" target="_blank" mat-raised-button color="primary">
+                                                                                <mat-icon>visibility</mat-icon> Voir
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="item.comments != null">
+                                                                        <th colspan="3" class="text-center">
+                                                                            <div class="ms-3 mt-2 p-1 alert bg-light">
+                                                                                <h6 class="mb-0">
+                                                                                    <b class="text-uppercase fst-italic text-warning">Commentaire:</b>
+                                                                                </h6>
+                                                                                <b class="text-warning">❝***********❞</b>
+                                                                                <div class="ps-4" role="alert" [innerHTML]="sanitazedData(item.comments)"></div>
+                                                                                <b class="text-warning">❝***********❞</b>
+                                                                            </div>
+                                                                        </th>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                                <tbody *ngIf="piece_jointe.length == 0">
+                                                                    <tr>
+                                                                        <th colspan="4" class="text-center">
+                                                                            <div class="text-center">
+                                                                                <i class="fa fa-ban text-danger fa-2x"></i>
+                                                                                <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                                                            </div>
+                                                                        </th>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <mat-card class="">
+                        <mat-card-content>
+                            <div class="card-header text-center rounded-5">
+                                <h2 class="text-uppercase mb-0 text-warning">
+                                    CONFORMITÉ DU PROJET AU CADRE RÉGLEMENTAIRE ET AU PLAN STRATÉGIQUE
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <div class="container mt-3">
+                                            <h3 class="text-center">
+                                                CONFORMITÉ DU PROJET AVEC LE CADRE RÉGLEMENTAIRE
+                                            </h3>
+
+                                            <div class="text-center">
+                                                <button *ngIf="status_first_decret == 'oui'" mat-fab extended color="primary">
+                                                    <mat-icon>done</mat-icon>
+                                                    Oui
+                                                </button>
+                                                <button *ngIf="status_first_decret == 'non'" mat-fab extended class="bg-danger text-white">
+                                                    <mat-icon>close</mat-icon>
+                                                    Non
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="container mt-3">
+                                            <div class="">
+                                                <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                    <ngx-editor [editor]="editor_first_decret" [(ngModel)]="html_first_decret" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+
+                                <mat-card class="mt-3">
+                                    <mat-card-content>
+                                        <div class="container">
+                                            <h3 class="text-center">
+                                                CONFORMITÉ DU PROJET AVEC LE PLAN STRATÉGIQUE
+                                            </h3>
+
+                                            <div class="text-center">
+                                                <button *ngIf="status_second_decret == 'oui'" mat-fab extended color="primary">
+                                                    <mat-icon>done</mat-icon>
+                                                    Oui
+                                                </button>
+                                                <button *ngIf="status_second_decret == 'non'" mat-fab extended class="bg-danger text-white">
+                                                    <mat-icon>close</mat-icon>
+                                                    Non
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="container mt-3">
+                                            <div class="">
+                                                <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                    <ngx-editor [editor]="editor_second_decret" [(ngModel)]="html_second_decret" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+
+                                <mat-card class="mt-3">
+                                    <mat-card-content>
+                                        <div class="container">
+                                            <h3 class="text-center">
+                                                CONFORMITÉ DU PROJET AVEC LES ACCOMPAGNEMENTS PRIORITAIRES ANNUELS
+                                            </h3>
+
+                                            <div class="text-center">
+                                                <button *ngIf="status_third_decret == 'oui'" mat-fab extended color="primary">
+                                                    <mat-icon>done</mat-icon>
+                                                    Oui
+                                                </button>
+                                                <button *ngIf="status_third_decret == 'non'" mat-fab extended class="bg-danger text-white">
+                                                    <mat-icon>close</mat-icon>
+                                                    Non
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="container mt-3">
+                                            <div class="">
+                                                <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                    <ngx-editor [editor]="editor_third_decret" [(ngModel)]="html_third_decret" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="card mt-3">
+                    <mat-card class="">
+                        <mat-card-content>
+                            <div class="card-header text-center rounded-5 mb-3">
+                                <h2 class="text-uppercase mb-0 text-warning">
+                                    RÉSULTATS DE L'ÉTUDE ET ANALYSE DU PROJET
+                                </h2>
+                            </div>
+                            <mat-tab-group #demo3Tab [(selectedIndex)]="demo1TabIndex" mat-stretch-tabs="false" mat-align-tabs="center">
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        <b class="me-1">01.</b>
+                                        <span class="text-uppercase">La pertinence du projet</span>
+                                    </ng-template>
+
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <div class="my-3">
+                                                <h5 class="text-uppercase mb-0 text-dark text-center">
+                                                    <b class="me-1 text-warning fs-3">01.</b>
+                                                    VEUILLEZ ENTRER LE COMMENTAIRE POUR LA PERTINENCE DU PROJET
+                                                </h5>
+                                            </div>
+                                            <div class="container mt-3">
+                                                <div class="">
+                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                        <ngx-editor [editor]="editor_first_etude" [(ngModel)]="html_first_etude" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+
+                                    <div class="ms-3 mt-2 text-end py-2">
+
+                                        <button *ngIf="project_data.etude_pertinance_projet != null || html_first_etude != ''" class="ms-3" (click)="nextBtnClick(1)"  mat-mini-fab color="warn">
+                                            <mat-icon>skip_next</mat-icon>
+                                        </button>
+                                    </div>
+
+                                </mat-tab>
+
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        <b class="me-1">02.</b>
+                                        <span class="text-uppercase">Le quantum</span>
+                                    </ng-template>
+
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <div class="my-3">
+                                                <h5 class="text-uppercase mb-0 text-dark text-center">
+                                                    <b class="me-1 text-warning fs-3">02.</b>
+                                                    VEUILLEZ ENTRER LE COMMENTAIRE POUR LE QUANTUM
+                                                </h5>
+                                            </div>
+                                            <div class="container mt-3">
+                                                <div class="">
+                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                        <ngx-editor [editor]="editor_second_etude" [(ngModel)]="html_second_etude" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+
+                                    <div class="ms-3 mt-2 text-end py-2">
+
+                                        <button class="ms-3" *ngIf="project_data.etude_quantum != null || html_second_etude != ''" (click)="previousBtnClick(2)"  mat-mini-fab color="warn">
+                                            <mat-icon>skip_previous</mat-icon>
+                                        </button>
+
+                                        <button *ngIf="project_data.etude_quantum != null || html_second_etude != ''" class="ms-1" (click)="nextBtnClick(2)"  mat-mini-fab color="warn">
+                                            <mat-icon>skip_next</mat-icon>
+                                        </button>
+                                    </div>
+                                </mat-tab>
+
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        <b class="me-1">03.</b>
+                                        <span class="text-uppercase">Modalité de financement</span>
+                                    </ng-template>
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <div class="my-3">
+                                                <h5 class="text-uppercase mb-0 text-dark text-center">
+                                                    <b class="me-1 text-warning fs-3">03.</b>
+                                                    VEUILLEZ ENTRER LE COMMENTAIRE POUR LA MODALITÉ DE FINANCEMENT
+                                                </h5>
+                                            </div>
+                                            <div class="container mt-3">
+                                                <div class="">
+                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                        <ngx-editor [editor]="editor_third_etude" [(ngModel)]="html_third_etude" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+
+                                    <div class="ms-3 mt-2 text-end py-2">
+
+                                        <button class="ms-3" *ngIf="project_data.etude_modalite_financement != null || html_third_etude != ''" (click)="previousBtnClick(3)"  mat-mini-fab color="warn">
+                                            <mat-icon>skip_previous</mat-icon>
+                                        </button>
+
+                                        <button *ngIf="project_data.etude_modalite_financement != null || html_third_etude != ''" class="ms-1"
+                                        (click)="nextBtnClick(3)" mat-mini-fab color="warn">
+                                            <mat-icon>skip_next</mat-icon>
+                                        </button>
+                                    </div>
+                                </mat-tab>
+
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        <b class="me-1">04.</b>
+                                        <span class="text-uppercase">Modalité de mise en oeuvre</span>
+                                    </ng-template>
+
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <div class="my-3">
+                                                <h5 class="text-uppercase mb-0 text-dark text-center">
+                                                    <b class="me-1 text-warning fs-3">04.</b>
+                                                    VEUILLEZ ENTRER LE COMMENTAIRE POUR LA MODALITÉ DE MISE EN OEUVRE
+                                                </h5>
+                                            </div>
+                                            <div class="container mt-3">
+                                                <div class="">
+                                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                                        <ngx-editor [editor]="editor_four_etude" [(ngModel)]="html_four_etude" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+
+                                    <div class="ms-3 mt-2 text-end py-2">
+
+                                        <button class="ms-3" *ngIf="project_data.etude_modalite_mise_en_oeuvre != null || html_four_etude != ''"
+                                        (click)="previousBtnClick(4)" mat-mini-fab color="warn">
+                                            <mat-icon>skip_previous</mat-icon>
+                                        </button>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
+                <div class="card mt-3">
+                    <mat-card class="">
+                        <mat-card-content>
+                            <div class="container">
+                                <h3 class="text-center">
+                                    DÉCISION FINAL DU CONSEIL
+                                </h3>
+                                <div class="text-center">
+                                    <mat-radio-group>
+                                        <button mat-raised-button [disabled]="isDecisionYes == false" class="mx-1" [color]="isDecisionYes == true?'primary':'default'">
+                                            <mat-radio-button value="validated">
+                                                <b [ngClass]="isDecisionYes == true?'text-white':'text-dark'">
+                                                    Approuvé
+                                                </b>
+                                            </mat-radio-button>
+                                        </button>
+                                        <button mat-raised-button [disabled]="isDecisionNo == false" [ngClass]="isDecisionNo == true?'mx-1 bg-danger':'mx-1 bg-white'">
+                                            <mat-radio-button value="rejected">
+                                                <b [ngClass]="isDecisionNo == true?'text-white':'text-dark'">
+                                                    Non approuvé
+                                                </b>
+                                            </mat-radio-button>
+                                        </button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <div class="container mt-3" *ngIf="status_decision_comments != ''">
+                                <div class="">
+                                    <div class="NgxEditor__Wrapper" [style]="'height: auto !important;'">
+                                        <ngx-editor [editor]="editor_decision_comments" [(ngModel)]="html_decision_comments" [disabled]="true" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="text-start">
+                <button *ngIf="user_email != ''" mat-fab extended color="warn" (click)="sendDocumentConvention(project_data)">
+                    <mat-icon>post_add</mat-icon>
+                   Joindre un document
+                </button>
+            </div>
+            <div class="text-end">
+                <button mat-raised-button (click)="back()" class="bg-danger mx-3 text-white">
+                    <mat-icon class="me-2">reply</mat-icon>
+                    Retour
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

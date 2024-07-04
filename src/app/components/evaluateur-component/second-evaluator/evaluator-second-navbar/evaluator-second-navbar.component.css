@@ -1,0 +1,28 @@
+
+mat-list-item button.active{
+    transition: .4s all;
+    background:  white !important;
+    color: #198754 !important;
+}
+
+mat-list-item button:hover{
+    background:  white !important;
+    color: #198754 !important;
+}
+
+mat-list-item:has(button.active),
+mat-list-item:hover{
+    transition: .4s all;
+    padding-left: 5px !important;
+    background-color: #fafdfc4f;
+}
+
+mat-list-item button.active span,
+mat-list-item button.active mat-icon,
+mat-list-item button:hover mat-icon,
+mat-list-item button:hover span
+{
+    transition: .4s all;
+    font-weight: bolder;
+    color: #198754 !important;
+}

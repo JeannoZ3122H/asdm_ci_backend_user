@@ -1,0 +1,85 @@
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="row">
+            <div class="card table-card px-0">
+                <div class="card-header">
+                    <div class="row align-items-center justify-content-between g-2">
+                        <div class="col-auto">
+                            <button  mat-button><mat-icon>list</mat-icon>Liste des comptes admins </button>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-search">
+                                <i class="ti ti-search"></i>
+                                <input type="search" class="form-control" placeholder="Rechercher un compte">
+                            </div>
+                        </div>
+                        <div *ngIf="_visitor == false" class="col-auto">
+                            <button (click)="openDialog()" class="text-uppercase default__btn__lg me-2" mat-raised-button color="primary">
+                                <mat-icon>add</mat-icon>
+                                Ajouter un compte
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="fst-italic">#ID</th>
+                                    <th>Administrateur</th>
+                                    <th>Matricule</th>
+                                    <th>contact</th>
+                                    <th>Fonction</th>
+                                    <th>role</th>
+                                    <th>Statut</th>
+                                    <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let admin of _liste_compte_admin | paginate: {id: 'pagination3', itemsPerPage: 20, currentPage: p }; let i=index">
+                                    <td>{{ i+1 }}</td>
+                                    <td>
+                                        <div class="media align-items-center">
+                                            <div class="flex-shrink-0 wid-40"><img class="img-radius img-fluid wid-40"
+                                                    [src]="admin.photo_url" alt="User image"></div>
+                                            <div class="media-body ms-3">
+                                                <h5 class="mb-1">{{ admin.fname+' '+admin.lname }}
+                                                    <i [ngClass]="admin.status == 0?'fas fa-check-circle text-danger':'fas fa-check-circle text-success'"></i>
+                                                </h5>
+                                                <p class="text-muted f-12 mb-0">{{ admin.email }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ admin.matricule }}</td>
+                                    <td>{{ admin.phone }}</td>
+                                    <td>{{ admin.fonction }}</td>
+                                    <td>{{ admin.role }}</td>
+                                    <td>
+                                        <span *ngIf="admin.status == 0" class="badge text-white bg-danger rounded-pill f-14">Inactif</span>
+                                        <span *ngIf="admin.status == 1" class="badge text-white bg-success rounded-pill f-14">Actif</span>
+                                    </td>
+                                    <td *ngIf="_visitor == false" class="text-center">
+                                        <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                            <mat-icon class="text-white">more_horiz</mat-icon>
+                                        </button>
+                                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                            <button mat-menu-item (click)="editCompteAdmin(admin)"> <mat-icon class="mat-18">edit_note</mat-icon> Modifier</button>
+                                            <button mat-menu-item (click)="statusAction(admin.slug)" *ngIf="admin.status == 0"><mat-icon class="mat-18">done_all</mat-icon>Activer</button>
+                                            <button mat-menu-item (click)="statusAction(admin.slug)" *ngIf="admin.status == 1"><mat-icon class="mat-18">close</mat-icon>Désactiver</button>
+                                            <button mat-menu-item (click)="deleteCompteAdmin(admin.slug)"> <mat-icon class="mat-18">delete_forever</mat-icon> Supprimer</button>
+                                        </mat-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container text-end mt-3">
+                        <pagination-controls id="pagination3" (pageChange)="p = $event" previousLabel="Précédent" nextLabel="Suivant">
+                        </pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

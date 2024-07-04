@@ -1,0 +1,81 @@
+<div mat-dialog-content>
+    <div class="text-center mb-3" *ngIf="is_good_enter_code == true || is_direct_add == true">
+        <h2 class="text-danger text-uppercase">
+            Document de convention
+        </h2>
+    </div>
+    <mat-card class="d-flex mx-2 justify-content-center" *ngIf="is_direct_add == true">
+        <mat-card-content class="">
+            <div class="col-12 text-center mb-3">
+                <i class="fa fa-file fa-7x"></i>
+                <p class="text-center mt-3">
+                    <small class="me-2">Pour: </small>
+                    #<b class="me-2 text-danger fs-5">{{ current_project }}</b>
+                </p>
+            </div>
+            <div class="col-12">
+                <label for="formFileLg" class="form-label">Veuillez charger le document (Format document)</label>
+                <input (change)="uploadFile($event)" class="form-control form-control-lg" id="formFileLg" type="file">
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card [class]="is_good_enter_code == false?'d-flex mx-2 my-4 justify-content-center':'d-flex mx-2 justify-content-center'" *ngIf="is_indirect_add == true">
+        <mat-card-content class="" *ngIf="is_good_enter_code == false && is_bad_enter_code == false">
+            <h4 class="text-center mt-3">
+                Veuillez choisisser le type du projet
+            </h4>
+            <div class="text-center mb-3 mt-2">
+                <mat-radio-group (change)="status($event)">
+                    <button mat-raised-button class="mx-2" [color]="project_type == 'subvention'?'primary':'default'">
+                        <mat-radio-button value="subvention"><b [ngClass]="project_type == 'subvention'?'text-white':'default'">Subvention</b></mat-radio-button>
+                    </button>
+                    <button mat-raised-button class="mx-2" [color]="project_type == 'help'?'primary':'default'">
+                        <mat-radio-button value="help"><b [ngClass]="project_type == 'help'?'text-white':'default'">Fonds de garantie</b></mat-radio-button>
+                    </button>
+                </mat-radio-group>
+            </div>
+            <div class="col-12 mt-5" *ngIf="project_type != ''">
+                <mat-form-field appearance="outline">
+                    <mat-label>Veuillez entrer le code du projet</mat-label>
+                    <input matInput type="text" [(ngModel)]="code_enter" placeholder="Placeholder">
+                    <mat-icon matSuffix>tag</mat-icon>
+                </mat-form-field>
+
+                <div class="text-center my-3" *ngIf="code_enter != ''">
+                    <button mat-raised-button (click)="checkIfExistProjectByCode()" class="bg-success mx-3 text-white">
+                        <mat-icon class="me-2">fact_check</mat-icon>
+                        Vérifier
+                    </button>
+                </div>
+            </div>
+        </mat-card-content>
+
+        <mat-card-content class="text-center" *ngIf="is_bad_enter_code == true">
+            <h4 class="mt-3">
+                Aucun projet trouvé pour le code renseigner
+            </h4>
+            <button mat-raised-button (click)="initProjectCodeBadEnter()" class="bg-dark text-white">
+                <mat-icon class="me-2">refresh</mat-icon>
+                Saisir à nouveau
+            </button>
+        </mat-card-content>
+
+        <mat-card-content class="" *ngIf="is_good_enter_code == true">
+            <div class="col-12 text-center mb-3">
+                <i class="fa fa-file fa-7x"></i>
+                <p class="text-center mt-3">
+                    <small class="me-2">Pour: </small>
+                    #<b class="me-2 text-danger fs-5">{{ current_project }}</b>
+                </p>
+            </div>
+            <div class="col-12">
+                <label for="formFileLg" class="form-label">Veuillez charger le document (Format document)</label>
+                <input (change)="uploadFile($event)" class="form-control form-control-lg" id="formFileLg" type="file">
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+<mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-button mat-dialog-close color="warn" (click)="close()">Annuler</button>
+    <button *ngIf="(project_type != '' && is_good_enter_code == true) || is_direct_add == true" mat-raised-button color="primary" (click)="send()">Valider</button>
+</mat-dialog-actions>

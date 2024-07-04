@@ -1,0 +1,129 @@
+
+<div class="pc-container">
+    <div class="pc-content px-0">
+        <div class="row" *ngIf="is_edit == false">
+            <div class="">
+                <h2 class="text-uppercase text-center">
+                    <i class="fa fa-list-ol fa-1x text-warning me-2"></i>
+                    LISTE DES DOCUMENTS DE CONVENTION ENVOYÉS
+                </h2>
+            </div>
+            <div class="col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <div class="card border-0 table-card px-0">
+                            <div class="bg-white">
+                                <div class="row mb-3 align-items-center justify-content-between g-2">
+                                    <div class="col-12 mb-3 mb-lg-0">
+                                        <h6 class="text-uppercase text-start">
+                                            <i class="fa fa-folder-open fa-1x text-warning me-2"></i>
+                                            Tous les documents
+                                        </h6>
+                                        <p class="fw-bold">
+                                            <small class="me-2 text-warning">❝</small>
+                                            <b><i class="fa fa-bell-slash text-warning"></i></b>
+                                            <small class="me-2 text-warning">
+                                                Cliquez pour voir le contenu du document
+                                            </small>
+                                            <small class="ms-2 text-warning">❞</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-7 col-lg-8">
+                                        <div class="form-search">
+                                            <i class="ti ti-search"></i>
+                                            <input type="search" class="form-control" placeholder="Rechercher ici...">
+                                        </div>
+                                    </div>
+
+                                    <div class="my-1 col-lg-4 col-md-5 text-end col-12">
+                                        <button (click)="sendDocumentConvention({})" mat-raised-button color="primary">
+                                            <mat-icon>join_right</mat-icon>
+                                            Joindre un document
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="fst-italic">
+                                                    <!-- <i class="fa fa-envelope-open" aria-hidden="true"></i> -->
+                                                    <i class="fa fa-envelope-square" aria-hidden="true"></i>
+                                                </th>
+                                                <th>projet</th>
+                                                <th class="text-center">Date d'envoi</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of _liste | paginate: {id: 'pagination1', itemsPerPage: 20, currentPage: p }; let i=index">
+                                                <td>
+                                                    <i class="fa fa-paper-plane text-success"></i>
+                                                </td>
+                                                <td>
+                                                   #{{ item.project_code }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <b class="me-2"><i class="fa fa-calendar-check text-dark"></i></b>
+                                                    <span class="text-dark">{{ item.created_at | date: 'dd MMMM yyyy' }}</span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <a href="{{ item.document_convention }}" class="mx-2 nav-link" target="_blank" mat-mini-fab color="primary">
+                                                        <mat-icon>visibility</mat-icon>
+                                                    </a>
+
+                                                    <button (click)="update(item)" mat-mini-fab class="mx-2" color="warn">
+                                                        <mat-icon>edit_location</mat-icon>
+                                                    </button>
+
+                                                    <button class="mx-2 bg-danger text-white" (click)="deleteDocumentConventionByEvaluator(item.slug)" mat-mini-fab >
+                                                        <mat-icon>delete_forever</mat-icon>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="container text-end mt-3">
+                                    <pagination-controls id="pagination1" (pageChange)="p = $event" previousLabel="Précédent" nextLabel="Suivant">
+                                    </pagination-controls>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <div class="row justify-content-center" *ngIf="is_edit == true">
+            <div class="text-center mb-3">
+                <h2 class="text-danger text-uppercase">
+                   Modification du document de convention
+                </h2>
+            </div>
+            <mat-card class="col-lg-8 col-12 d-flex mx-2 justify-content-center">
+                <mat-card-content class="">
+                    <div class="col-12 text-center mb-3">
+                        <i class="fa fa-file fa-7x"></i>
+                        <p class="text-center mt-3">
+                            <small class="me-2">Pour: </small>
+                            #<b class="me-2 text-danger fs-5">{{ current_project }}</b>
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <label for="formFileLg" class="form-label">Veuillez charger le nouveau document (Format document)</label>
+                        <input (change)="uploadFile($event)" class="form-control form-control-lg" id="formFileLg" type="file">
+                    </div>
+                </mat-card-content>
+                <div class="text-center my-3">
+                    <button mat-fab extended (click)="sendUpdateDocumentConvention()" matTooltip="Modifier" color="primary">
+                        <mat-icon>edit_document</mat-icon>
+                        Modifier le document
+                    </button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

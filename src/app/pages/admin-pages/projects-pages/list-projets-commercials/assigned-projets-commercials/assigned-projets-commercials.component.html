@@ -1,0 +1,116 @@
+<div class="row">
+    <div class="card table-card px-0">
+        <div class="card-header">
+            <div *ngIf="_visitor == false" class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-12 d-flex justify-content-center">
+
+                        <div class="mx-1" *ngFor="let niveau of _liste_niveau">
+                            <button mat-fab extended [color]="niveau.niveau_name == current_niv?'primary':''"
+                                (click)="ListeProjectAssigned(niveau.niveau_code, niveau.niveau_name)">
+                                {{ niveau.niveau_name }}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <hr *ngIf="_visitor == false" class="my-2">
+            <div class="row align-items-center justify-content-between g-2">
+                <div class="col-auto">
+                    <button mat-button>
+                        <mat-icon>list</mat-icon>
+                        Liste des projets imputés
+                        <span class="fw-bold">(Entreprises)</span>
+                    </button>
+                </div>
+                <div class="col-5">
+                    <div class="form-search">
+                        <i class="ti ti-search"></i>
+                        <input type="search" class="form-control" placeholder="Rechercher un projet">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="fst-italic">#ID</th>
+                            <th>Code ref. projet</th>
+                            <th>Titre du projet</th>
+                            <th>Instructeur</th>
+                            <th class="text-center">Niveau</th>
+                            <th class="text-center">Statut</th>
+                            <th class="text-center">Date début traitement</th>
+                            <th class="text-center">Date fin traitement</th>
+                            <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let projet of _liste_assigned_projet | paginate: { itemsPerPage: 20, currentPage: p }; let i=index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ projet.project_code }}</td>
+                            <td class=""> {{ projet.titre_projet }}</td>
+                            <td>{{ projet.fname+' '+projet.lname }}</td>
+                            <td>{{ current_niv }}</td>
+                            <td>
+                                <p class="" *ngIf="projet.niveau_code == 'NIV-01'">
+                                    <span class="badge text-white bg-warning"
+                                    *ngIf="projet.status_dossiers == 0 || projet.status_decrets == null">
+                                        En cours...
+                                    </span>
+                                    <span class="badge text-white bg-success" *ngIf="projet.status_decrets != null && projet.status_dossiers == 1">
+                                        Traité
+                                    </span>
+                                </p>
+
+                                <p class="" *ngIf="projet.niveau_code == 'NIV-02'">
+                                    <span class="badge text-white bg-warning"
+                                    *ngIf="(projet.status_decrets != null || projet.status_etude == 0) && (projet.status_decisions_on == 0 && projet.status_decisions_off == 0)">
+                                        En cours...
+                                    </span>
+                                    <span class="badge text-white bg-success" *ngIf="projet.status_decisions_on == 1 || projet.status_decisions_off == 1">
+                                        Traité
+                                    </span>
+                                </p>
+                            </td>
+                            <td>{{ projet.date_debut_traitement | date: 'dd MMMM yyyy' }}</td>
+                            <td>{{ projet.date_fin_traitement | date: 'dd MMMM yyyy' }}</td>
+
+                            <td *ngIf="_visitor == false" class="text-center">
+                                <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                    <mat-icon class="text-white">more_horiz</mat-icon>
+                                </button>
+                                <mat-menu #beforeMenu="matMenu" xPosition="before">
+
+                                    <button mat-menu-item
+                                        *ngIf="projet.niveau_code == 'NIV-01' && (projet.status_dossiers == 0 || projet.status_decrets == null)
+                                        "
+                                        (click)="reasignedAsEvaluator(projet)">
+                                        <mat-icon class="mat-18">person_search</mat-icon>
+                                        Réimputation
+                                    </button>
+
+                                    <button mat-menu-item
+                                        *ngIf="projet.niveau_code == 'NIV-02' && (projet.status_decisions_on == 0 && projet.status_decisions_off == 0)" (click)="reasignedAsEvaluator(projet)">
+                                        <mat-icon class="mat-18">person_search</mat-icon>
+                                            Réimputation
+                                    </button>
+
+                                </mat-menu>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="container text-end mt-3">
+                <pagination-controls (pageChange)="p = $event" previousLabel="Précédent" nextLabel="Suivant">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

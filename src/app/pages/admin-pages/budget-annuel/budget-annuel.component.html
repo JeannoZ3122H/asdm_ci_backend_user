@@ -1,0 +1,111 @@
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="row">
+            <mat-card class="my-4">
+                <mat-card-content class="mx-auto">
+                    <button class="text-uppercase default__btn__lg me-2"
+                    (click)="gotToBudgetEntreprise()"
+                     mat-raised-button [color]="is_budget_entreprise == true?'warn':''">
+                        Liste des budgets des entreprises
+                    </button>
+                    <button class="text-uppercase default__btn__lg me-2"
+                    (click)="gotToBudgetOrganisation()"
+                     mat-raised-button [color]="is_budget_organisation == true?'primary':''">
+                      Liste des budgets des organisations
+                    </button>
+                </mat-card-content>
+            </mat-card>
+
+            <div class="card table-card" *ngIf="is_budget_entreprise == true">
+                <div class="card-header">
+                    <div class="row align-items-center justify-content-between g-2">
+                        <div class="col-auto">
+                            <button  mat-button><mat-icon>list</mat-icon>Liste des budgets des entreprises</button>
+                        </div>
+                        <div *ngIf="_visitor == false" class="col-auto">
+                            <button (click)="openDialogEntreprise()" class="text-uppercase default__btn__lg me-2" mat-raised-button color="primary">
+                                <mat-icon>add</mat-icon>
+                                Ajouter un budget
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="fst-italic">#ID</th>
+                                    <th>Budget</th>
+                                    <th>Année</th>
+                                    <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let budget of _liste_budget_annuel">
+                                    <td>{{ budget.id }}</td>
+                                    <td>{{ budget.budget_annuel}}</td>
+                                    <td>{{ budget.annee }}</td>
+                                    <td *ngIf="_visitor == false" class="text-center">
+                                        <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                            <mat-icon class="text-white">more_horiz</mat-icon>
+                                        </button>
+                                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                            <button mat-menu-item (click)="editBudget(budget)"> <mat-icon class="mat-18">edit_note</mat-icon> Modifier</button>
+                                            <button mat-menu-item (click)="deleteBudget(budget.slug)"> <mat-icon class="mat-18">delete_forever</mat-icon> Supprimer</button>
+                                        </mat-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card table-card" *ngIf="is_budget_organisation == true">
+                <div class="card-header">
+                    <div class="row align-items-center justify-content-between g-2">
+                        <div class="col-auto">
+                            <button  mat-button><mat-icon>list</mat-icon>Liste des budgets des organisation</button>
+                        </div>
+                        <div *ngIf="_visitor == false" class="col-auto">
+                            <button (click)="openDialogOrganisation()" class="text-uppercase default__btn__lg me-2" mat-raised-button color="primary">
+                                <mat-icon>add</mat-icon>
+                                Ajouter un budget
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="fst-italic">#ID</th>
+                                    <th>Budget</th>
+                                    <th>Année</th>
+                                    <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let budget of _liste_budget_annuel">
+                                    <td>{{ budget.id }}</td>
+                                    <td>{{ budget.budget_annuel}}</td>
+                                    <td>{{ budget.annee }}</td>
+                                    <td *ngIf="_visitor == false" class="text-center">
+                                        <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                            <mat-icon class="text-white">more_horiz</mat-icon>
+                                        </button>
+                                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                            <button mat-menu-item (click)="editBudget(budget)"> <mat-icon class="mat-18">edit_note</mat-icon> Modifier</button>
+                                            <button mat-menu-item (click)="deleteBudget(budget.slug)"> <mat-icon class="mat-18">delete_forever</mat-icon> Supprimer</button>
+                                        </mat-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+
+<mat-toolbar  class="mat-elevation-z8 default__toolbar">
+
+    <button (click)="drawer.toggle()" mat-icon-button>
+        <mat-icon color="warn" class="mat-icon-navbar text-yellow">menu</mat-icon>
+    </button>
+    <img src="assets/img/logo.png" class="user-log" width="185" alt="logo ASDM">
+
+
+    <span class="default__spacer"></span>
+
+    <div class="d-flex">
+        <button [matMenuTriggerFor]="userDropright" mat-button class="text-uppercase default__btn__lg">
+            <mat-icon>arrow_drop_down</mat-icon>
+            <span class="user-name">{{ online_user_data.fname +' '+online_user_data.lname }}</span>
+        </button>
+
+        <style>
+            @media screen and (max-width: 992px) {
+                .user-log{
+                    width: 80px !important;
+                }
+                .user-name{
+                    font-size: 10px;
+                }
+                .online-user{
+                    width: 30px !important;
+                    height: 30px !important;
+                }
+            }
+        </style>
+        <img [src]="online_user_data.photo_url" width="45" height="45" class="rounded-circle mt-2 online-user" alt="">
+    </div>
+
+    <mat-menu #userDropright="matMenu">
+        <mat-divider></mat-divider>
+        <button  (click)="forgotPassword()" mat-menu-item>
+            <i class="fa fa-lock fa-1x me-2 text-danger"></i>
+            Modifier mot de passe
+        </button>
+        <button (click)="logOut(online_user_data.slug)" mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            Déconnexion
+        </button>
+    </mat-menu>
+</mat-toolbar>
+
+
+<mat-drawer-container class="default__drawer__conrainer" >
+    <mat-drawer class="default__drawer bg-success" #drawer [opened]="screenWidth > 840" [mode]="(screenWidth > 840) ? 'side' : 'over'">
+        <mat-nav-list class="mt-4">
+            <mat-divider mat-inset></mat-divider>
+
+            <div class="ps-0" *ngFor="let item of sidebar_menu_list">
+                <li *ngIf="item.category"
+                class="text-white fs-7 d-flex text-uppercase py-2 mat-elevation-z8 bg-success ps-3 mx-0 fw-bolder">
+                    <mat-icon class="me-2 text-warning">{{ item.icon_category }}</mat-icon>
+                    <span class="mt-1">
+                        {{ item.category }}
+                    </span>
+                </li>
+
+                <li class="text-warning ms-3 py-2 fw-bolder" *ngIf="item.title"> {{ item.title }}</li>
+                <mat-list-item class="fw-bolder">
+                    <button class="w-100 py-2 text-dark mat-elevation-z8"
+                    [routerLink]="item.router" routerLinkActive="active"
+                    [routerLinkActiveOptions]="item.id == 1?{exact: true}:{exact: false} " mat-button >
+
+                        <mat-icon style="color: white">{{ item.item_icon }}</mat-icon>
+                        <span class="text-start" style="color: white">{{ item.item_name }}</span>
+                    </button>
+                </mat-list-item>
+            </div>
+        </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content class="default__content">
+        <div class="pcoded-main-container">
+            <div class="pcoded-content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

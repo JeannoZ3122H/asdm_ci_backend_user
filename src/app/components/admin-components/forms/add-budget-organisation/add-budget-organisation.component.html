@@ -1,0 +1,34 @@
+<h2 *ngIf="is_update == false" class="text-center" mat-dialog-title>Ajouter un budget</h2>
+<h2 *ngIf="is_update == true" mat-dialog-title>Modifier un budget</h2>
+<div mat-dialog-content>
+    <div class="row mt-2">
+        <!-- <div class="col-md-12 col-12">
+            <mat-form-field appearance="outline">
+                <mat-label *ngIf="is_update == true">{{ budget }}</mat-label>
+                <mat-label *ngIf="is_update == false">Choisissez un budget</mat-label>
+                <mat-select [(value)]="budget" (selectionChange)="chooseBudget($event)">
+                    <mat-option *ngFor="let type_media of _liste_budget_annuel" [value]="type_media.type_media_name">{{ type_media.type_media_name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> -->
+         <div class="col-md-12 col-12">
+            <mat-form-field appearance="outline">
+                <mat-label>Année</mat-label>
+                <input [(ngModel)]="annee" type="text" matInput placeholder="année">
+            </mat-form-field>
+        </div>
+        <div class="col-md-12 col-12">
+            <mat-form-field appearance="outline">
+                <mat-label>Budget</mat-label>
+                <input [(ngModel)]="budget_annuel" type="text" matInput placeholder="budget annuel">
+            </mat-form-field>
+        </div>
+
+
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-raised-button class="text-bg-danger" mat-dialog-close>Retour</button>
+    <button *ngIf="is_update == true" mat-raised-button color="primary" (click)="updateBudget()">Modifier</button>
+    <button *ngIf="is_update == false" mat-raised-button color="primary" (click)="saveBudget()">Enregistrer</button>
+</div>

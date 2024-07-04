@@ -1,0 +1,38 @@
+<div mat-dialog-content>
+    <div class="row py-3">
+        <div class="col-sm-12 p-3">
+            <h3 class="text-center mb-3 text-uppercase fw-bolder">
+                Commentaire sur <span class="text-warning me-2 text-uppercase"><b class="mx-2">❝</b> {{ element }} <b class="mx-2">❞</b></span>
+            </h3>
+            <div class="card">
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="row justify-content-center">
+                            <div class="col-12 mb-3">
+                                <div class="">
+                                    <div class="NgxEditor__Wrapper" [style]="html_comments.length < 250?'height: 200px !important;':'height: auto !important;'">
+                                        <ngx-editor-menu [toolbar]="toolbar" [colorPresets]="colorPresets" [editor]="editor_comments"> </ngx-editor-menu>
+                                        <ngx-editor [editor]="editor_comments" [(ngModel)]="html_comments" [disabled]="false" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+
+    <button mat-raised-button (click)="close()" class="text-white bg-danger">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+        Retour
+    </button>
+
+    <button mat-raised-button (click)="send()" class="text-white bg-success">
+        <i class="fa fa-paper-plane me-2"></i>
+        Enregistrer
+    </button>
+
+</div>

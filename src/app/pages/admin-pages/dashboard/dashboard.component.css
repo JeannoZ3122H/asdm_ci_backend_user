@@ -1,0 +1,43 @@
+.card-sw-sm
+{
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+}
+
+.counter_section {
+    min-height: auto;
+    display: block;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border: 0px solid #e7e7e7;
+    padding: 30px 35px;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.dashnum-card.dashnum-card-small .round.small {
+    top: -160px;
+    right: -130px;
+    opacity: .5;
+}
+.dashnum-card .round {
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+    width: 210px;
+    overflow: hidden;
+    height: 210px;
+    z-index: -1;
+}
+[data-pc-direction=ltr] .bg-warning {
+    --bs-bg-opacity: 1;
+    background-color: #d68417 !important;
+}
+
+
+.bg-news-actions-on
+{
+    background-color: rgba(0, 128, 0, 0.193);
+}
+.bg-news-actions-off
+{
+    background-color: rgba(225, 225, 225, 0.193);
+}

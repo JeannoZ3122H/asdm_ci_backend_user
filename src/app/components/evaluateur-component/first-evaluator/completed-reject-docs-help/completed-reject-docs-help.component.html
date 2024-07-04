@@ -1,0 +1,40 @@
+<div mat-dialog-contents>
+    <div class="row py-3">
+        <div class="col-sm-12 p-3">
+            <h2 class="text-center mb-3 text-uppercase fw-bolder">Informations sur le motif du rejet</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="row justify-content-center">
+                            <div class="col-12 mb-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Libellé du document</mat-label>
+                                    <input matInput placeholder="Object ici..." required [(ngModel)]="object">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Descriptions</mat-label>
+                                    <textarea matInput rows="8" placeholder="Description ici..." required [(ngModel)]="html_descriptions"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+
+    <button mat-raised-button (click)="close()" class="text-white bg-danger">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+        Retour
+    </button>
+
+    <button mat-raised-button (click)="sendMessage()" class="text-white bg-success">
+        <i class="fa fa-paper-plane me-2"></i>
+        Enregistrer
+    </button>
+
+</div>

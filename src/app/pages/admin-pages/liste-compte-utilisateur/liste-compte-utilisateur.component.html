@@ -1,0 +1,350 @@
+<div class="pc-container">
+    <div class="pc-content">
+
+        <mat-tab-group animationDuration="1000ms">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <h3 class="text-uppercase fw-bolder py-3 px-5" (click)="showUsersByTypeCategory('commercial')">Utilisateurs entreprise</h3>
+                </ng-template>
+
+                <div class="row">
+                    <mat-card class="my-4">
+                        <mat-card-content class="mx-auto">
+                            <button class="text-uppercase default__btn__lg me-2"
+                            (click)="gotToDefaultCommercialAccount()"
+                             mat-raised-button [color]="is_defalut_account == true?'primary':''">
+                                Liste utilisateurs non activés
+                            </button>
+                            <button class="text-uppercase default__btn__lg me-2"
+                            (click)="gotToActiveCommercialAccount()"
+                             mat-raised-button [color]="is_actived_account == true?'primary':''">
+                              Liste utilisateurs activés
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                    <div class="card table-card px-0" *ngIf="is_defalut_account == true">
+                        <div class="card-header">
+                            <div class="row align-items-center justify-content-between g-2">
+                                <div class="col-auto">
+                                    <button mat-button><mat-icon>list</mat-icon>Liste des nouveaux comptes utilisateur</button>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-search">
+                                        <i class="ti ti-search"></i>
+                                        <input type="search" class="form-control" placeholder="Rechercher un compte">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="fst-italic">#ID</th>
+                                            <th>Utilisateurs</th>
+                                            <th>Site web</th>
+                                            <th>Entreprise</th>
+                                            <th>contact</th>
+                                            <th>Référence utilisateur</th>
+                                            <th>adresse géographique</th>
+                                            <th class="text-center">Statut</th>
+                                            <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let utilisateur of _liste_default_compte_utilisateur; let i=index">
+                                            <td>{{ i+1 }}</td>
+                                            <td>
+                                                <div class="media align-items-center">
+                                                    <div class="flex-shrink-0 wid-40"><img class="img-radius img-fluid wid-40"
+                                                            [src]="utilisateur.logo_url" alt="User image"></div>
+                                                    <div class="media-body ms-3">
+                                                        <h5 class="mb-1">{{ utilisateur.directeur_general }}
+                                                        </h5>
+                                                        <p class="text-muted f-12 mb-0">{{ utilisateur.email }}</p>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td>{{ utilisateur.web_site_url }}</td>
+                                            <td>{{ utilisateur.business }}</td>
+                                            <td>{{ utilisateur.contacts }}</td>
+                                            <td>{{ utilisateur.user_ref }}</td>
+                                            <td>
+                                                {{ utilisateur.address }}
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge text-white bg-danger rounded-pill f-14">Inactif</span>
+                                            </td>
+                                            <td *ngIf="_visitor == false" class="text-center">
+                                                <button mat-mini-fab color="warn" [matMenuTriggerFor]="beforeMenu">
+                                                    <mat-icon class="text-white">more_horiz</mat-icon>
+                                                </button>
+                                                <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                    <button mat-menu-item (click)="editCompteCommercialUtilisateur(utilisateur, 'default')"> <mat-icon class="mat-18 text-warning">edit_note</mat-icon> Modifier</button>
+                                                    <button mat-menu-item (click)="migrateDefaultCompteCommercial(utilisateur.slug)"><mat-icon class="mat-18 text-warning">done_all</mat-icon>Activer</button>
+                                                    <button mat-menu-item (click)="deleteDefaultCompteCommercialUtilisateur(utilisateur.slug)"> <mat-icon class="mat-18 text-danger">delete_forever</mat-icon>Supprimer</button>
+                                                </mat-menu>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card table-card px-0" *ngIf="is_actived_account == true">
+                        <div class="card-header">
+                            <div class="row align-items-center justify-content-between g-2">
+                                <div class="col-auto">
+                                    <button  mat-button><mat-icon>list</mat-icon>Liste des comptes utilisateur autorisés</button>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-search">
+                                        <i class="ti ti-search"></i>
+                                        <input type="search" class="form-control" placeholder="Rechercher un compte">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="fst-italic">#ID</th>
+                                            <th>Utilisateurs</th>
+                                            <th>Site web</th>
+                                            <th>Entreprise</th>
+                                            <th>contact</th>
+                                            <th>Réference utilisateur</th>
+                                            <th>adresse géographique</th>
+                                            <th class="text-center">Statut</th>
+                                            <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let utilisateur of _liste_actived_compte_utilisateur | paginate: {id: 'pagination3', itemsPerPage: 20, currentPage: p }; let i=index">
+                                            <td>{{ i+1 }}</td>
+                                            <td>
+                                                <div class="media align-items-center">
+                                                    <div class="flex-shrink-0 wid-40"><img class="img-radius img-fluid wid-40"
+                                                            [src]="utilisateur.logo_url" alt="User image"></div>
+                                                    <div class="media-body ms-3">
+                                                        <h5 class="mb-1">{{ utilisateur.directeur_general }}
+                                                        </h5>
+                                                        <p class="text-muted f-12 mb-0">{{ utilisateur.email }}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ utilisateur.web_site_url }}</td>
+                                            <td>{{ utilisateur.business }}</td>
+                                            <td>{{ utilisateur.contacts }}</td>
+                                            <td>{{ utilisateur.user_ref }}</td>
+                                            <td>
+                                                {{ utilisateur.address }}
+                                            </td>
+                                            <td class="text-center">
+                                                <span *ngIf="utilisateur.status == 0" class="badge text-white bg-danger rounded-pill f-14">Inactif</span>
+                                                <span *ngIf="utilisateur.status == 1" class="badge text-white bg-success rounded-pill f-14">Actif</span>
+                                            </td>
+                                            <td *ngIf="_visitor == false" class="text-center">
+                                                <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                                    <mat-icon class="text-white">more_horiz</mat-icon>
+                                                </button>
+                                                <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                    <button mat-menu-item (click)="editCompteCommercialUtilisateur(utilisateur, 'actived')"> <mat-icon class="mat-18 text-warning">edit_note</mat-icon> Modifier</button>
+                                                    <button mat-menu-item *ngIf="utilisateur.status == 0" (click)="statusActionCompteCommercialActived(utilisateur.slug)"><mat-icon class="mat-18 text-warning">done_all</mat-icon>Activer</button>
+                                                    <button mat-menu-item *ngIf="utilisateur.status == 1" (click)="statusActionCompteCommercialActived(utilisateur.slug)"><mat-icon class="mat-18 text-danger">close</mat-icon>Désactiver</button>
+                                                    <button mat-menu-item (click)="deleteActivedCompteCommercialUtilisateur(utilisateur.slug)"> <mat-icon class="mat-18 text-danger">delete_forever</mat-icon>Supprimer</button>
+                                                </mat-menu>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="container text-end mt-3">
+                                <pagination-controls id="pagination3" (pageChange)="p = $event" previousLabel="Précédent" nextLabel="Suivant">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    <h3 class="text-uppercase fw-bolder py-3 px-5" (click)="showUsersByTypeCategory('non-commercial')">Utilisateurs organisation</h3>
+                </ng-template>
+
+                <div class="row">
+                    <mat-card class="my-4">
+                        <mat-card-content class="mx-auto">
+                            <button class="text-uppercase default__btn__lg me-2"
+                            (click)="gotToDefaultNonCommercialAccount()"
+                             mat-raised-button [color]="is_defalut_account == true?'primary':''">
+                                Liste utilisateurs non activés
+                            </button>
+                            <button class="text-uppercase default__btn__lg me-2"
+                            (click)="gotToActiveNonCommercialAccount()"
+                             mat-raised-button [color]="is_actived_account == true?'primary':''">
+                              Liste utilisateurs activés
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                    <div class="card table-card px-0" *ngIf="is_defalut_account == true">
+                        <div class="card-header">
+                            <div class="row align-items-center justify-content-between g-2">
+                                <div class="col-auto">
+                                    <button mat-button><mat-icon>list</mat-icon>Liste des nouveaux comptes utilisateur</button>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-search">
+                                        <i class="ti ti-search"></i>
+                                        <input type="search" class="form-control" placeholder="Rechercher un compte">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="fst-italic">#ID</th>
+                                            <th>Utilisateurs</th>
+                                            <th>Site web</th>
+                                            <th>Entreprise</th>
+                                            <th>contact</th>
+                                            <th>Référence utilisateur</th>
+                                            <th>adresse géographique</th>
+                                            <th class="text-center">Statut</th>
+                                            <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let utilisateur of _liste_default_compte_utilisateur; let i=index">
+                                            <td>{{ i+1 }}</td>
+                                            <td>
+                                                <div class="media align-items-center">
+                                                    <div class="flex-shrink-0 wid-40"><img class="img-radius img-fluid wid-40"
+                                                            [src]="utilisateur.logo_url" alt="User image"></div>
+                                                    <div class="media-body ms-3">
+                                                        <h5 class="mb-1">{{ utilisateur.directeur_general }}
+                                                        </h5>
+                                                        <p class="text-muted f-12 mb-0">{{ utilisateur.email }}</p>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td>{{ utilisateur.web_site_url }}</td>
+                                            <td>{{ utilisateur.business }}</td>
+                                            <td>{{ utilisateur.contacts }}</td>
+                                            <td>{{ utilisateur.user_ref }}</td>
+                                            <td>
+                                                {{ utilisateur.address }}
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge text-white bg-danger rounded-pill f-14">Inactif</span>
+                                            </td>
+                                            <td *ngIf="_visitor == false" class="text-center">
+                                                <button mat-mini-fab color="warn" [matMenuTriggerFor]="beforeMenu">
+                                                    <mat-icon class="text-white">more_horiz</mat-icon>
+                                                </button>
+                                                <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                    <button mat-menu-item (click)="editCompteNonCommercialUtilisateur(utilisateur, 'default')"> <mat-icon class="mat-18 text-warning">edit_note</mat-icon> Modifier</button>
+                                                    <button mat-menu-item (click)="migrateDefaultCompteNonCommercial(utilisateur.slug)"><mat-icon class="mat-18 text-warning">done_all</mat-icon>Activer</button>
+                                                    <button mat-menu-item (click)="deleteDefaultCompteNonCommercialUtilisateur(utilisateur.slug)"> <mat-icon class="mat-18 text-danger">delete_forever</mat-icon>Supprimer</button>
+                                                </mat-menu>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card table-card px-0" *ngIf="is_actived_account == true">
+                        <div class="card-header">
+                            <div class="row align-items-center justify-content-between g-2">
+                                <div class="col-auto">
+                                    <button  mat-button><mat-icon>list</mat-icon>Liste des comptes utilisateur autorisés</button>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-search">
+                                        <i class="ti ti-search"></i>
+                                        <input type="search" class="form-control" placeholder="Rechercher un compte">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="fst-italic">#ID</th>
+                                            <th>Utilisateurs</th>
+                                            <th>Site web</th>
+                                            <th>Entreprise</th>
+                                            <th>contact</th>
+                                            <th>Réference utilisateur</th>
+                                            <th>adresse géographique</th>
+                                            <th class="text-center">Statut</th>
+                                            <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let utilisateur of _liste_actived_compte_utilisateur | paginate: {id: 'pagination3', itemsPerPage: 20, currentPage: p }; let i=index">
+                                            <td>{{ i+1 }}</td>
+                                            <td>
+                                                <div class="media align-items-center">
+                                                    <div class="flex-shrink-0 wid-40"><img class="img-radius img-fluid wid-40"
+                                                            [src]="utilisateur.logo_url" alt="User image"></div>
+                                                    <div class="media-body ms-3">
+                                                        <h5 class="mb-1">{{ utilisateur.directeur_general }}
+                                                        </h5>
+                                                        <p class="text-muted f-12 mb-0">{{ utilisateur.email }}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ utilisateur.web_site_url }}</td>
+                                            <td>{{ utilisateur.business }}</td>
+                                            <td>{{ utilisateur.contacts }}</td>
+                                            <td>{{ utilisateur.user_ref }}</td>
+                                            <td>
+                                                {{ utilisateur.address }}
+                                            </td>
+                                            <td class="text-center">
+                                                <span *ngIf="utilisateur.status == 0" class="badge text-white bg-danger rounded-pill f-14">Inactif</span>
+                                                <span *ngIf="utilisateur.status == 1" class="badge text-white bg-success rounded-pill f-14">Actif</span>
+                                            </td>
+                                            <td *ngIf="_visitor == false" class="text-center">
+                                                <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                                    <mat-icon class="text-white">more_horiz</mat-icon>
+                                                </button>
+                                                <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                    <button mat-menu-item (click)="editCompteNonCommercialUtilisateur(utilisateur, 'actived')"> <mat-icon class="mat-18 text-warning">edit_note</mat-icon> Modifier</button>
+                                                    <button mat-menu-item *ngIf="utilisateur.status == 0" (click)="statusActionCompteNonCommercialActived(utilisateur.slug)"><mat-icon class="mat-18 text-warning">done_all</mat-icon>Activer</button>
+                                                    <button mat-menu-item *ngIf="utilisateur.status == 1" (click)="statusActionCompteNonCommercialActived(utilisateur.slug)"><mat-icon class="mat-18 text-danger">close</mat-icon>Désactiver</button>
+                                                    <button mat-menu-item (click)="deleteActivedCompteNonCommercialUtilisateur(utilisateur.slug)"> <mat-icon class="mat-18 text-danger">delete_forever</mat-icon>Supprimer</button>
+                                                </mat-menu>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="container text-end mt-3">
+                                <pagination-controls id="pagination3" (pageChange)="p = $event" previousLabel="Précédent" nextLabel="Suivant">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+</div>

@@ -1,0 +1,42 @@
+
+<hr class="my-1">
+<h2 *ngIf="is_update == false" class="text-center text-uppercase my-1" mat-dialog-title>Ajouter un session</h2>
+<h2 *ngIf="is_update == true" class="text-center text-uppercase my-1" mat-dialog-title>Modifier un session</h2>
+<hr class="my-1">
+<div mat-dialog-content>
+    <div class="row mt-2">
+        <div class="col-12">
+            <mat-form-field appearance="outline">
+                <mat-label *ngIf="is_update == false">Sesssion</mat-label>
+                <mat-label  *ngIf="is_update == true">{{ session }}</mat-label>
+                <input [(ngModel)]="session" type="text" matInput placeholder="session">
+            </mat-form-field>
+        </div>
+        <div class="col-12">
+            <mat-form-field appearance="outline">
+                <mat-label *ngIf="is_update == false">Date de début</mat-label>
+                <mat-label *ngIf="is_update == true">{{ date_debut }}</mat-label>
+                <input [(ngModel)]="date_debut" [matDatepicker]="picker" matInput placeholder="date de début">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-12">
+            <mat-form-field appearance="outline">
+                <mat-label *ngIf="is_update == false">Date de fin</mat-label>
+                <mat-label *ngIf="is_update == true">{{ date_fin }}</mat-label>
+                <input [(ngModel)]="date_fin" [matDatepicker]="picker1" matInput placeholder="date de fin">
+                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-raised-button class="text-white bg-danger" mat-dialog-close>
+        <mat-icon>reply</mat-icon>
+        Retour
+    </button>
+    <button *ngIf="is_update == true" mat-raised-button color="primary" (click)="updateSession()">Modifier</button>
+    <button *ngIf="is_update == false" mat-raised-button color="primary" (click)="saveSession()">Enregistrer</button>
+</div>

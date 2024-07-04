@@ -1,0 +1,111 @@
+<mat-card class="mt-5">
+    <mat-card-content>
+        <div class="page-header">
+            <div class="page-block">
+                <h2 class="text-uppercase text-center">
+                    Détails du messages
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card">
+                <div class="">
+                    <div class="simplebar-content" style="padding: 25px;">
+                        <div class="d-sm-flex align-items-center">
+                            <ul class="list-inline me-auto mb-3">
+                                <li class="list-inline-item align-bottom">
+                                    <div class="d-flex align-items-center">
+                                        <div class="ms-2" style="width: 150px">
+                                            <p class="text-sm">
+                                                <i class="fa fa-envelope-open fa-2x me-2"></i>
+                                                <span class="fs-6">À:
+                                                    <span class="fs-5 text-warning">{{ detail_message.business }}</span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline ms-auto mb-3">
+                                <li class="list-inline-item text-dark">
+                                    <i class="fa fa-calendar-check" aria-hidden="true"></i>
+                                    Envoyé le
+                                    <span class="fw-bolder fst-italic">{{ detail_message.created_at | date: 'dd MMMM yyyy' }}</span>
+                                    <b class="mx-1">à</b>
+                                    <small class="fw-bolder text-warning fst-italic">{{ detail_message.created_at | date: 'HH' }}h {{ detail_message.created_at | date: 'mm' }}min</small>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mail-details">
+                            <hr class="mb-3 mt-2">
+                            <h3>Objet: <b>{{ detail_message.object }}</b></h3>
+
+                            <div class="text-dark text-satrt mb-3">
+                                <p class="ms-0 fw-bold">Contenu: </p>
+                                <div class="my-4">
+                                    <b class="m-2 text-uppercase">Titre du projet:</b>
+                                    <span class=""> 
+                                        {{ detail_message.titre_projet }}
+                                    </span>
+                                </div>
+                                <div class="indent-text" style="text-indent: 15mm;" *ngIf="detail_message.message"
+                                    [innerHTML]="detail_message.message">
+                                </div>
+                                <div *ngFor="let item of reject_data" [ngClass]="is_rejected_documents == true?'mb-3 ms-4':'d-none'">
+                                    <strong class="fs-3 text-danger">{{ item.id }}.</strong>
+                                    <p class="mb-1 ms-3 text-danger">
+                                        <b class="me-2">Nom du dossier:</b>{{ item.folder_label }}
+                                    </p>
+                                    <div class="">
+                                        <b class="m-2">Motif de rejet:</b>
+                                        <span class="indent-text" style="text-indent: 15mm;" [innerHTML]="sanitazerText(item.motif)"> </span>
+                                    </div>
+                                </div>
+
+                                <div class="text-center" *ngIf="is_message_content_found == true">
+                                    <p class="text-danger"><i class="fa fa-ban fa-2x" aria-hidden="true"></i></p>
+                                    <p class="text-danger">Aucun contenu de message trouvé !</p>
+                                </div>
+                            </div>
+                            <hr class="mb-3 mt-0">
+
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <h5 class="mb-3">
+                    <b><i class="fa fa-paperclip me-2"></i>Les pièces jointes</b>
+                </h5>
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <ul class="list-group">
+                            <li *ngFor="let item of doc_list" class="list-group-item d-flex justify-content-between align-items-center ng-star-inserted">
+                                <span style="width: 80%;" class="text-black">
+                                    {{ item.project_docs_name }}
+                                </span>
+                                <button class="btn bg-success my-0" *ngIf="item.status_on == 1">
+                                    <i class="fa fa-check text-white" aria-hidden="true"></i>
+                                </button>
+                                <button *ngIf="item.status_off == 1" class="btn text-white bg-danger my-0">
+                                    <i class="fa fa-close me-2"></i>
+                                    Pas à jour
+                                </button>
+
+                                <button *ngIf="item.status_off == 0 && item.status_on == 0" class="btn text-dark bg-transparent my-0">
+                                    <i class="fa fa-download me-2"></i>
+                                    Mis à jour
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <button (click)="goToBack()" class="btn my-2 btn-light-danger btn-sw">
+                    <i class="align-text-bottom me-1 fa fa-reply"></i>
+                    Retour
+                </button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

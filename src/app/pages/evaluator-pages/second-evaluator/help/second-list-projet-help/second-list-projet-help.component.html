@@ -1,0 +1,120 @@
+
+<div class="pc-container">
+    <div class="pc-content px-0">
+        <div class="row">
+            <div class="">
+                <h2 class="text-uppercase text-center">
+                    <i class="fa fa-list-ol fa-1x text-warning me-2"></i>
+                    Liste des projets fonds de garantie
+                </h2>
+            </div>
+            <div class="col-sm-12">
+                <div class="card table-card px-0">
+                    <div class="card-header">
+                        <div class="row align-items-center justify-content-between g-2">
+                            <div class="col-lg-8 col-10">
+                                <div class="form-search">
+                                    <i class="ti ti-search"></i>
+                                    <input type="search" class="form-control" placeholder="Rechercher ici...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="fst-italic">#ID</th>
+                                        <th>TITRE DU PROJET</th>
+                                        <th>Statut</th>
+                                        <th>Date début traitement</th>
+                                        <th>Date fin traitement</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let projet of _liste_global_projet | paginate: {id: 'pagination1', itemsPerPage: 20, currentPage: p }; let i=index">
+                                        <td>{{ i+1 }}</td>
+                                        <td class="text-wrap" style="cursor: pointer" *ngIf="
+                                            projet.status_decrets != null &&
+                                            projet.status_decrets_plan_strategie != null &&
+                                            projet.status_decrets_plan_annuel != null &&
+                                            projet.status_dossiers == 1
+                                        "
+                                        [routerLink]="['/web.second-evaluateur.help.details-projet', projet.project_code]">
+                                            {{ projet.titre_projet }}
+                                        </td>
+                                        <td class="text-wrap" *ngIf="
+                                            projet.status_decrets == null ||
+                                            projet.status_decrets_plan_strategie == null ||
+                                            projet.status_decrets_plan_annuel == null ||
+                                            projet.status_dossiers == 0
+                                        ">
+                                            {{ projet.titre_projet }}
+                                        </td>
+                                        <td class="text-center">
+                                            <button *ngIf="projet.status_etude == 0 || (projet.status_decisions_off == 0 && projet.status_decisions_on == 0)"
+                                                mat-raised-button [color]="'warn'">
+                                                En cours...
+                                            </button>
+                                            <button *ngIf="projet.status_etude == 1 && (projet.status_decisions_on == 1 || projet.status_decisions_off == 1)"
+                                                mat-raised-button [color]="'primary'">
+                                                Traité
+                                            </button>
+                                        </td>
+                                        <td class="text-center">
+                                            <b class="me-2"><i class="fa fa-calendar-check text-dark"></i></b>
+                                            <span class="text-dark">{{ projet.date_debut_traitement | date: 'dd MMMM yyyy' }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <b class="me-2"><i class="fa fa-calendar-check text-danger"></i></b>
+                                            <span class="text-dark">{{ projet.date_fin_traitement | date: 'dd MMMM yyyy' }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <button mat-mini-fab color="primary"
+                                                [disabled]="
+                                                    projet.status_decrets == null ||
+                                                    projet.status_decrets_plan_strategie == null ||
+                                                    projet.status_decrets_plan_annuel == null ||
+                                                    projet.status_dossiers == 0
+                                                "
+                                                [matMenuTriggerFor]="beforeMenu">
+                                                <mat-icon class="text-white">more_horiz</mat-icon>
+                                            </button>
+                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                <button mat-menu-item
+                                                [routerLink]="['/web.second-evaluateur.help.details-projet', projet.project_code]">
+                                                    <mat-icon class="mat-18">visibility</mat-icon> Voir
+                                                    contenu</button>
+                                            </mat-menu>
+                                        </td>
+                                    </tr>
+                                    <tr class="" *ngIf="is_loading_data == true">
+                                        <td colspan="6">
+                                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                        </td>
+                                    </tr>
+                                    <tr class="" *ngIf="_liste_global_projet.length == 0 && is_loading_data == false">
+                                        <td colspan="6">
+                                            <div class="text-center">
+                                                <i class="fa fa-ban text-danger fa-2x"></i>
+                                                <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="container text-end mt-3">
+                            <pagination-controls id="pagination1" (pageChange)="p = $event" previousLabel="Précédent" nextLabel="Suivant">
+                            </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,175 @@
+<div mat-dialog-content>
+    <div class="row vh-100 align-items-center justify-content-center">
+        <div class="col-sm-12" *ngIf="is_update_data == true">
+            <div class="card">
+                <h1 class="text-center">Commentaire</h1>
+                <div class="card-body">
+                    <!-- <div class="tab-content">
+                        <div class="row justify-content-center">
+                            <div class="col-12 mb-3">
+                                <label for="object" class="form-label">Objet</label>
+                                <input type="text" class="form-control" id="object" [(ngModel)]="object"
+                                    placeholder="Object ici..." required>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="message" class="form-label">Description</label>
+                                <textarea class="form-control" required id="message" placeholder="Message ici..." [(ngModel)]="message" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12" *ngIf="is_set_data == true">
+            <div *ngIf="len_list == 0" class="my-3 container">
+                <p class="text-center">
+                    <i class="fa fa-warning text-danger me-2"></i>
+                    <b class="text-danger">NB</b>: Veuillez prendre le soin de vérifier que les dates entrées sont bel et bien celles correspondant à
+                    <b class="text-dark">ANNÉE N-1</b>...<b class="text-sucdarkcess">ANNÉE N-3</b> car aucune modification des années ne sera possible après le premier enregistrement. Merci de votre compréhension !
+                </p>
+            </div>
+            <div class="mb-3">
+                <h2 class="text-center text-uppercase lh-sm">
+                    PERFORMANCE ANTÉRIEURE (SUR LES TROIS DERNIÈRES ANNÉES)
+                </h2>
+            </div>
+            <div class="card mb-0">
+                <div class="card-body">
+                    <div [class]="i == len_list && len_list < 4?'tab-content':'d-none'" *ngFor="let item of list_libelle; let i=index">
+                        <div class="text-center">
+                            <div class="mb-3">
+                                <h3 class="text-center text-uppercase lh-sm">
+                                    <b class="text-warning">0{{ i+1 }}</b>.
+                                    <span class="ms-3">{{ item.name }}</span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4 col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <h5 class="text-center text-uppercase lh-sm">
+                                            <b class="text-warning">ANNÉE N-1</b>
+                                        </h5>
+                                        <div class="row justify-content-center">
+                                            <div [class]="'col-12 mb-2'">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="one_year" *ngIf="alreadly_set_data == false">Selectionnez l'année</mat-label>
+                                                    <mat-label for="one_year" *ngIf="alreadly_set_data == true">{{ one_year }}</mat-label>
+                                                    <mat-select [disabled]="alreadly_set_data == true" id="one_year" [ngModel]="one_year" (selectionChange)="chooseYear($event, 1)">
+                                                        <mat-option [value]="item" *ngFor="let item of _list_year">
+                                                            {{ item }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-12 col-12 mb-2" *ngIf="one_year != ''">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="one_montant">Montant</mat-label>
+                                                    <input type="number" min="0" matInput pattern="[0-9]" id="one_montant" (input)="storeToLs($event, 1)" [(ngModel)]="one_montant" required placeholder="montant ici...">
+                                                    <mat-icon matSuffix>price_change</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-4 col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <h5 class="text-center text-uppercase lh-sm">
+                                            <b class="text-warning">ANNÉE N-2</b>
+                                        </h5>
+                                        <div class="row justify-content-center">
+                                            <div [class]="'col-12 mb-2'">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="second_year" *ngIf="alreadly_set_data == false">Selectionnez l'année</mat-label>
+                                                    <mat-label for="second_year" *ngIf="alreadly_set_data == true">{{ second_year }}</mat-label>
+                                                    <mat-select [disabled]="alreadly_set_data == true" id="second_year" [ngModel]="second_year" (selectionChange)="chooseYear($event, 2)">
+                                                        <mat-option [value]="item" *ngFor="let item of _list_year">
+                                                            {{ item }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-12 col-12 mb-2" *ngIf="second_year != ''">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="second_montant">Montant</mat-label>
+                                                    <input matInput type="number" min="0" pattern="[0-9]" id="second_montant" (input)="storeToLs($event, 2)" [(ngModel)]="second_montant" required placeholder="montant ici...">
+                                                    <mat-icon matSuffix>price_change</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-4 col-12 mb-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <h5 class="text-center text-uppercase lh-sm">
+                                            <b class="text-warning">ANNÉE N-3</b>
+                                        </h5>
+                                        <div class="row justify-content-center">
+                                            <div [class]="'col-12 mb-2'">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="third_year" *ngIf="alreadly_set_data == false">Selectionnez l'année</mat-label>
+                                                    <mat-label for="third_year" *ngIf="alreadly_set_data == true">{{ third_year }}</mat-label>
+                                                    <mat-select [disabled]="alreadly_set_data == true" id="third_year" [ngModel]="third_year" (selectionChange)="chooseYear($event, 3)">
+                                                        <mat-option [value]="item" *ngFor="let item of _list_year">
+                                                            {{ item }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-12 col-12 mb-2" *ngIf="third_year != ''">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="third_montant">Montant</mat-label>
+                                                    <input matInput type="number" min="0" pattern="[0-9]" id="third_montant" [(ngModel)]="third_montant" (input)="storeToLs($event, 3)" required placeholder="montant ici...">
+                                                    <mat-icon matSuffix>price_change</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                        <div class="text-center my-3" *ngIf="
+                        one_year != '' &&
+                        second_year != '' &&
+                        third_year != '' &&
+                        one_montant != '' &&
+                        second_montant != '' &&
+                        third_montant != ''
+                        ">
+                            <button mat-raised-button (click)="storeAllDataToDB(item)" color="primary">
+                                <mat-icon>done_all</mat-icon>
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="len_list == 3">
+                    <p class="text-center">
+                        <i class="fa text-success fa-check-circle fa-3x"></i>
+                    </p>
+                    <p class="text-center">
+                        Terminer
+                    </p>
+
+                    <div class="text-center my-3">
+                        <button mat-raised-button (click)="isEndSet()" color="primary">
+                                <mat-icon>done_all</mat-icon>
+                                Enregistrer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions *ngIf="len_list < 4" class="d-flex justify-content-between">
+    <button mat-raised-button (click)="close()" class="text-bg-danger">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+        Fermer
+    </button>
+</div>

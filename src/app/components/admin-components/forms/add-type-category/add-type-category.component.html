@@ -1,0 +1,23 @@
+
+<hr class="my-1">
+<h3 *ngIf="is_update == false" class="text-center text-uppercase my-1" mat-dialog-title>Ajouter un type de catégorie</h3>
+<h3 *ngIf="is_update == true" class="text-center text-uppercase my-1" mat-dialog-title>Modifier un type de catégorie</h3>
+<hr class="my-1">
+<div mat-dialog-content>
+    <div class="row mt-2">
+        <div class="col-12">
+            <mat-form-field appearance="outline">
+                <mat-label>Type catégorie</mat-label>
+                <input [(ngModel)]="type_category" type="text" matInput placeholder="type catégorie">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-raised-button class="text-white bg-danger" mat-dialog-close>
+        <mat-icon>reply</mat-icon>
+        Retour
+    </button>
+    <button *ngIf="is_update == true" mat-raised-button color="primary" (click)="updateTypeCategory()">Modifier</button>
+    <button *ngIf="is_update == false" mat-raised-button color="primary" (click)="saveTypeCategory()">Enregistrer</button>
+</div>

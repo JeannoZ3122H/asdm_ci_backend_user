@@ -1,0 +1,242 @@
+
+<div class="pc-container">
+    <div class="pc-content px-0">
+        <div class="text-start my-3">
+            <button mat-raised-button *ngIf="is_subvention_project == true || is_help_project == true" (click)="initAll()" class="bg-danger mx-3 text-white">
+                <mat-icon class="me-2">refresh</mat-icon>
+                Réinitiliser mes choix
+            </button>
+        </div>
+        <div class="row align-content-center justify-content-center">
+            <!-- <div [ngClass]="is_show_content_by_type_repport == false?'col-12':'col-12'"> -->
+            <div [ngClass]="is_show_content_by_type_repport == false?'col-lg-8 col-12':'col-12'">
+                <mat-card>
+                    <mat-card-content *ngIf="is_subvention_project == false && is_help_project == false && is_show_content_by_type_repport == false">
+                        <div class="my-3">
+                            <h3 class="mb-0 text-dark text-center">
+                                Veuillez choisir le type de projet s'il vous plaît
+                                <!-- <b class="me-1 text-warning fs-3"><i class="fa fa-question-circle"></i></b> -->
+                            </h3>
+                        </div>
+                        <div class="container mt-4">
+                            <div class="text-center mb-3 mt-2">
+                                <mat-radio-group (change)="typeProject($event)">
+                                    <button mat-fab extended class="mx-lg-4 mx-2 mb-3" [color]="my_option_type_project == 'subvention'?'primary':'default'">
+                                        <mat-radio-button value="subvention" style="cursor: pointer">
+                                            <b [ngClass]="my_option_type_project == 'subvention'?'text-white text-uppercase':'default text-uppercase'">
+                                                Subvention
+                                            </b>
+                                        </mat-radio-button>
+                                    </button>
+                                    <button mat-fab extended class="mx-lg-4 mx-2 mb-3" [color]="my_option_type_project == 'help'?'primary':'default'">
+                                        <mat-radio-button value="help" style="cursor: pointer">
+                                            <b [ngClass]="my_option_type_project == 'help'?'text-white text-uppercase':'default text-uppercase'">
+                                                Fonds de garantie
+                                            </b>
+                                        </mat-radio-button>
+                                    </button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                    <mat-card-content *ngIf="is_subvention_project == true || is_help_project == true">
+                        <div class="my-3">
+                            <h2 class="mb-0 text-uppercase bg-success text-white text-center">
+                                {{ is_subvention_project==true?'Subvention':'Fonds de garantie' }}
+                                <b class="me-1 text-white fs-3"><i class="fa fa-check-circle"></i></b>
+                            </h2>
+
+                            <div class="mt-4 text-center">
+                                <h3 *ngIf="type_repport_project == 'pre-repport'" class="mb-0 fw-bolder text-dark text-uppercase">
+                                    <small class="text-warning me-1">>></small> Pré-rapport du projet<small class="text-warning ms-1"><<</small>
+                                </h3>
+                                <h3 *ngIf="type_repport_project == 'global-repport'" class="mb-0 fw-bolder text-dark text-uppercase">
+                                    <small class="text-warning me-1">>></small> Rapport définitif du projet  <small class="text-warning ms-1"><<</small>
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="container mt-4" *ngIf="is_good_enter_code == false && is_show_content_by_type_repport == false">
+
+                            <div class="text-center my-3" *ngIf="(is_after_choosing_entrer_mode == false
+                            || is_help_project == true) && is_category_project == ''">
+                                <button mat-raised-button class="mx-3" (click)="choosingModeEnterCodeProject('code')" [color]="is_mode_code_enter == 'code'?'primary':'default'">
+                                    <b [ngClass]="is_mode_code_enter == 'code'?'text-white':'text-dark'">
+                                        J'ai une copie du code
+                                    </b>
+                                </button>
+                                <button mat-raised-button class="mx-3" (click)="choosingModeEnterCodeProject('select')" [color]="is_mode_code_enter == 'select'?'primary':'default'">
+                                    <b [ngClass]="is_mode_code_enter == 'select'?'text-white':'text-dark'">
+                                        Je veux chercher un projet
+                                    </b>
+                                </button>
+                            </div>
+
+                            <div class="text-center my-3" *ngIf="is_after_choosing_entrer_mode == true
+                            && is_subvention_project == true && is_mode_code_enter == 'select'">
+
+                                <h3 class="my-3 text-dark text-center">
+                                    Veuillez choisir la catégorie
+                                    <!-- <b class="me-1 text-warning fs-3"><i class="fa fa-question-circle"></i></b> -->
+                                </h3>
+
+                                <button mat-raised-button class="mx-3" (click)="choosingCategoryProject('commercial')" [color]="is_category_project == 'commercial'?'primary':'default'">
+                                    <b [ngClass]="is_category_project == 'commercial'?'text-white':'text-dark'">
+                                        Entreprise
+                                    </b>
+                                </button>
+                                <button mat-raised-button class="mx-3" (click)="choosingCategoryProject('non-commercial')" [color]="is_category_project == 'non-commercial'?'primary':'default'">
+                                    <b [ngClass]="is_category_project == 'non-commercial'?'text-white':'text-dark'">
+                                        Organisation
+                                    </b>
+                                </button>
+                            </div>
+
+                            <div class="text-center mb-3 mt-2" *ngIf="
+                            is_after_choosing_entrer_mode == true && (is_help_project == true || is_subvention_project == true)">
+
+                                <div class="col-12 mt-5" *ngIf="is_mode_code_enter == 'code' && is_category_project == '' ">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Veuillez entrer le code du projet</mat-label>
+                                        <input matInput type="text" [(ngModel)]="project_code_enter" placeholder="Placeholder">
+                                        <mat-icon matSuffix>tag</mat-icon>
+                                    </mat-form-field>
+
+                                    <div class="text-center my-3" *ngIf="project_code_enter.length > 5">
+                                        <button mat-raised-button (click)="checkIfExistProjectByCode()" class="bg-success mx-3 text-white">
+                                            <mat-icon class="me-2">fact_check</mat-icon>
+                                            Vérifier
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-5" *ngIf="
+                                is_mode_code_enter == 'select' && (is_help_project == true && is_category_project == '')
+                                ">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Selectionner le projet de la catégorie</mat-label>
+                                        <mat-select (selectionChange)="isSelectedProject($event)">
+                                            <mat-option *ngFor="let item of list_project" [value]="item.project_code">{{ item.titre_projet }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-12 mt-5" *ngIf="
+                                is_mode_code_enter == 'select' &&
+                                (is_subvention_project == true && is_category_project != '')
+                                ">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Selectionner le projet de la catégorie</mat-label>
+                                        <mat-select (selectionChange)="isSelectedProject($event)">
+                                            <mat-option *ngFor="let item of list_project" [value]="item.project_code">{{ item.titre_projet }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="container mt-4" *ngIf="is_good_enter_code == true">
+                            <div class="text-center mb-3 mt-2">
+                                <mat-radio-group (change)="typeRepport($event)">
+                                    <button mat-fab extended class="mx-lg-4 mx-2 mb-3" [color]="type_repport_project == 'pre-repport'?'primary':'default'">
+                                        <mat-radio-button value="pre-repport" style="cursor: pointer">
+                                            <b [ngClass]="type_repport_project == 'pre-repport'?'text-white text-uppercase':'default text-uppercase'">
+                                                Pré-rapport
+                                            </b>
+                                        </mat-radio-button>
+                                    </button>
+                                    <button mat-fab extended class="mx-lg-4 mx-2 mb-3" [color]="type_repport_project == 'global-repport'?'primary':'default'">
+                                        <mat-radio-button value="global-repport" style="cursor: pointer">
+                                            <b [ngClass]="type_repport_project == 'global-repport'?'text-white text-uppercase':'default text-uppercase'">
+                                                Rapport définitif
+                                            </b>
+                                        </mat-radio-button>
+                                    </button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
+                        <div class="container mt-4" *ngIf="is_good_enter_code == false && is_bad_enter_code == true && is_loading == true">
+                            <div class="text-center mb-3 mt-2">
+                                <mat-card [class]="'example-card py-2'">
+                                    <div class="text-center">
+                                        <i class="fa fa-ban fa-3x text-danger"></i>
+                                    </div>
+                                    <mat-card-content>
+                                        <div class="text-center mt-4">
+                                            <p class="fs-6" *ngIf="is_category_project != ''">
+                                                <b> Aucun projet trouvé !</b> <br>
+                                                Veuillez vérifier que le code est bien pour un projet de
+                                                <span class="" *ngIf="is_subvention_project==true">
+                                                    {{ is_category_project == 'non-commercial'?'organisation':'entreprise' }}
+                                                </span>
+                                                <span class="" *ngIf="is_help_project==true">
+                                                    fonds de garantie
+                                                </span>
+                                            </p>
+                                            <p class="fs-6" *ngIf="is_category_project == ''">
+                                                <b> Aucun projet trouvé !</b>
+                                            </p>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+
+                <div class="container-fluid mt-5" *ngIf="(is_subvention_project == true || is_help_project == true) && is_show_content_by_type_repport == true">
+
+                    <div class="container mt-4" *ngIf="
+                    is_good_enter_code == true
+                    && type_repport_project == 'pre-repport'
+                    && is_not_complected_project_step_one == true">
+
+                        <div class="text-center mb-3 mt-2">
+                            <mat-card [class]="'example-card py-2'">
+                                <div class="text-center">
+                                    <i class="fa fa-ban fa-3x text-danger"></i>
+                                </div>
+                                <mat-card-content>
+                                    <div class="text-center mt-4">
+                                        <p class="fs-6">
+                                            <b>Impossible d'avoir le pré-rapport de ce projet !</b> <br>
+                                        Le projet n'a pas encors été traité au niveau de l'instructeur 1
+                                        </p>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                    <div class="container mt-4" *ngIf="
+                    is_good_enter_code == true
+                    && type_repport_project == 'global-repport'
+                    && is_not_complected_project_step_second == true">
+                        <div class="text-center mb-3 mt-2">
+                            <mat-card [class]="'example-card py-2'">
+                                <div class="text-center">
+                                    <i class="fa fa-warning fa-3x text-danger"></i>
+                                </div>
+                                <mat-card-content>
+                                    <div class="text-center mt-4">
+                                        <p class="fs-6">
+                                        <b>Impossible d'avoir le rapport définitif de ce projet !</b> <br>
+                                        Le projet n'a pas encors été traité au niveau de l'instructeur 2
+                                        </p>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                    <app-previews-first-projet-repport *ngIf="type_repport_project == 'pre-repport' && is_not_complected_project_step_one == false"></app-previews-first-projet-repport>
+                    <app-previews-final-projet-repport *ngIf="type_repport_project == 'global-repport' && is_not_complected_project_step_second == false"></app-previews-final-projet-repport>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

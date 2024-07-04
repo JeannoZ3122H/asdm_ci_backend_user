@@ -1,0 +1,7 @@
+This favicon was generated using the following font:
+
+- Project Title: ASDM
+- Project Author: Copyright 2024 ASDM Web
+- Project Source: https://web.asdm.alerte-info.net
+- Project License: Reserved By ASDM, V1.1
+- Realized by: Alerte Info SARL 

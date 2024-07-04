@@ -1,0 +1,24 @@
+<div mat-dialog-content>
+    <div class="row mt-2 justify-content-center">
+        <div class="col-md-12 text-center">
+            <div class="container d-flex justify-content-center mb-4">
+                <mat-icon color="warn" style="font-size: 110px" class="w-50 h-50">notifications_active</mat-icon>
+                <!-- <i class="fa fa-bell fa-6x text-warning" aria-hidden="true"></i> -->
+            </div>
+            <h4 class="text-dark">
+               Bienvenu(e), <br> Nous avons constaté une connexion récente à votre compte en tant que <span class="text-warning text-capitalize">{{ user_type }}</span>.
+            </h4>
+        </div>
+
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-raised-button (click)="closeDialog()" class="btn-sw text-white bg-danger">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+        Retour
+    </button>
+    <button mat-raised-button (click)="continueWith()" color="primary">
+        <mat-icon class="mat-18 me-2 f-18">done_all</mat-icon>
+        continuer avec
+    </button>
+</div>

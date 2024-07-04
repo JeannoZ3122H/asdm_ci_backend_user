@@ -1,0 +1,18 @@
+<mat-dialog-content>
+    <mat-card class="d-flex justify-content-center">
+        <h3 class="mb-3 ms-3 text-decoration-underline">Recent:</h3>
+        <div class="d-flex justify-content-center">
+            <img mat-card-image [src]="my_avatar" class="w-75 text-center">
+        </div>
+        <mat-card-content class="">
+            <div class="col-12">
+                <label for="formFileLg" class="form-label">Charger le nouveau logo ici !</label>
+                <input (change)="uploadFile($event)" class="form-control form-control-lg" id="formFileLg" type="file">
+            </div>
+        </mat-card-content>
+    </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-button mat-dialog-close color="warn" (click)="close('no-good')">Annuler</button>
+    <button mat-button color="primary" (click)="updateLOgo()">Valider</button>
+</mat-dialog-actions>

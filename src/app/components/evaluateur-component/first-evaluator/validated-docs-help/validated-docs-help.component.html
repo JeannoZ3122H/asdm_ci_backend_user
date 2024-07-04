@@ -1,0 +1,37 @@
+<div mat-dialog-contents>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <h1 class="text-center">Commentaire</h1>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="row justify-content-center">
+                            <div class="col-12 mb-3">
+                                <label for="object" class="form-label">Objet</label>
+                                <input type="text" class="form-control" id="object" [(ngModel)]="object"
+                                    placeholder="Object ici..." required>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="message" class="form-label">Description</label>
+                                <textarea class="form-control" required id="message" placeholder="Message ici..." [(ngModel)]="message" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+
+    <button mat-raised-button (click)="close()" class="text-bg-danger">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+        Retour
+    </button>
+
+    <button mat-raised-button (click)="sendMessage()" class="text-bg-success">
+        <i class="fa fa-paper-plane me-2" aria-hidden="true"></i>
+        Envoyer le message
+    </button>
+
+</div>

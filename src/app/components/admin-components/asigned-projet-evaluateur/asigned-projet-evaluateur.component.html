@@ -1,0 +1,92 @@
+<h2 class="text-center text-uppercase" mat-dialog-title *ngIf="is_asigned == true">
+    Imputation de projet aux instructeurs
+</h2>
+<h2 class="text-center text-uppercase" mat-dialog-title *ngIf="is_reasigned == true">
+    Réimputation de projet aux instructeurs
+</h2>
+<div mat-dialog-content>
+    <mat-card *ngIf="is_end < 2">
+        <mat-card-content>
+            <div [class]="is_asigned == true?'row justify-content-between':'row justify-content-center'">
+                <div class="col-lg-9 d-flex col-12" *ngIf="is_asigned == true">
+                    <b class="text-danger">IMPORTANT:</b>
+                    <p class="mt-2 ms-2">
+                        Veuillez prendre le soin de bien finir l'imputation du projet choisi avant de passer au prochain. Merci d'avance!
+                    </p>
+                </div>
+                <div class="col-lg-3 text-end col-12" *ngIf="is_asigned == true">
+                    <b class="text-dark">NB:</b>
+                    <span class="ms-2 fs-2 text-danger">{{ current_niv }}</span>
+                    /
+                    <span class="ms-0 fs-5 text-dark">{{ len_niveau }}</span>
+                </div>
+                <div class="col-lg-9 d-flex col-12" *ngIf="is_reasigned == true">
+                    <b class="text-danger">NB:</b>
+                    <p class="mt-2 ms-2">
+                        Veuillez choisir le nouveau instructeur. Merci !
+                    </p>
+                </div>
+            </div>
+            <hr class=" mb-5">
+            <div class="my-3">
+                <h2 class="text-center text-uppercase">
+                    Imputation de projet à l'<span class="text-danger">instructeur {{ current_niv }}</span>
+                </h2>
+            </div>
+            <mat-card>
+                <mat-card-content>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 col-12 row justify-content-center">
+                            <div class="col-lg-6 col-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label *ngIf="is_asigned == true">Choisissez un instructeur à qui imputer</mat-label>
+                                    <mat-label *ngIf="is_reasigned == true">{{ evaluateur_name }}</mat-label>
+                                    <mat-select (selectionChange)="selectInstructor($event)">
+                                        <mat-option disabled>Choisissez un instructeur à qui imputer</mat-option>
+                                        <mat-option [value]="item" *ngFor="let item of _liste_evaluateur">{{ item.fname+' '+item.lname }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Délai de fin de traitement</mat-label>
+                                    <input matInput [matDatepicker]="pickerSecond" [(ngModel)]="date_fin">
+                                    <mat-datepicker-toggle matIconSuffix (click)="showBtnClosePicker()" [for]="pickerSecond"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerSecond></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="is_end == 2">
+        <mat-card-content>
+            <h2 class="text-center text-uppercase mb-3">
+                <i class="fa fa-check-circle fa-3x text-success"></i>
+            </h2>
+            <div class="container mt-3">
+                <p class="text-center mb-3 fs-6 text-dark">
+                    Proccessus d'imputation de projet aux instructeur terminé. Merci !
+                </p>
+            </div>
+            <div class="container mt-3 text-center">
+                <button mat-raised-button color="primary" (click)="finishedAssigned()">
+                    <mat-icon class="mat-18">close</mat-icon>
+                    Terminer
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button *ngIf="is_end < 2" mat-raised-button class="text-white bg-danger" mat-dialog-close>
+        <mat-icon>reply</mat-icon>
+        Retour
+    </button>
+    <button *ngIf="is_asigned == true && is_end < 2" mat-raised-button color="primary" (click)="asignedProjetAsEvaluateur()"><mat-icon class="mat-18">person_check</mat-icon> Imputer</button>
+    <button *ngIf="is_reasigned == true && is_end < 2" mat-raised-button color="primary" (click)="reasignedProjetAsEvaluateur()"><mat-icon class="mat-18">person_check</mat-icon> Réimputer</button>
+</div>

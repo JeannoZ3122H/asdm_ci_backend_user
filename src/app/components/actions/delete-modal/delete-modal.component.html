@@ -1,0 +1,23 @@
+<div mat-dialog-content>
+    <div class="row mt-2 justify-content-center">
+        <div class="col-md-12 text-center">
+            <i class="fa fa-bell fa-6x text-danger" aria-hidden="true"></i>
+            <hr>
+            <p>
+               Vous êtes sur le point <br>
+               de faire une suppression!
+            </p>
+        </div>
+
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-raised-button class="text-bg-danger" (click)="cancel()">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+       Retour
+    </button>
+    <button mat-raised-button color="primary" (click)="confirm()">
+        <mat-icon class="mat-18 me-2 f-18">done_all</mat-icon>
+       confirmer
+    </button>
+</div>

@@ -1,0 +1,37 @@
+.x-small-text{
+    font-size: 0.610em !important;
+}
+#card-content
+{
+    width: 210mm !important;
+}
+
+.bg-success-opacity-50{
+    background-color: rgb(25 135 84 / 40%)
+}
+.bg-success-opacity-50 b{
+    text-shadow: .4px 1.2px white;
+}
+
+
+@media print and (min-width: 480px) {
+    body {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+    /* All your print styles go here */
+    #header,
+    #footer,
+    #nav {
+        display: none !important;
+    }
+    h1 {
+        break-before: always;
+    }
+
+    /* @page {
+        size: auto;
+        size: A3;
+        margin: 0mm;
+    } */
+}

@@ -1,0 +1,66 @@
+<div mat-dialog-content>
+    <div class="row mt-2 justify-content-center">
+        <div class="col-md-12 text-center">
+            <div class="container mb-4">
+                <mat-icon color="warn" style="font-size: 110px" class="w-50 h-50">notifications_active</mat-icon>
+                <h5 class="text-dark mt-3">
+                    Nous avons constaté une connexion en cours sur cette fenêtre de votre navigateur en tant que <span class="text-warning text-capitalize">{{ user_type }}</span>.
+                </h5>
+            </div>
+            <div class="row d-none d-md-flex mt-2 justify-content-center">
+                <div class="col-lg-4 col-md-6 col-12 text-center">
+                    <mat-card style="cursor: pointer" (click)="myVoice('confirm')">
+                        <mat-card-content>
+                            <h3>
+                                <mat-icon color="primary" style="font-size: 80px" class="w-50 h-50">account_circle</mat-icon>
+                            </h3>
+                            <div class="text-center my-3">
+                                <p class="text-center">
+                                    Je veux continuer avec la session actuelle.
+                                </p>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 text-center">
+                    <mat-card style="cursor: pointer" (click)="myVoice('close')">
+                        <mat-card-content>
+                            <h3>
+                                <mat-icon color="warn" style="font-size: 80px" class="w-50 h-50">person_off</mat-icon>
+                            </h3>
+                            <div class="text-center my-3">
+                                <p class="text-center">
+                                    Je veux me connecter en tant que
+                                    <b class="text-gray me-1">❝</b> <span class="text-capitalize text-warning">{{ new_user_type }}</span><b class="ms-1 text-gray">❞</b>
+                                </p>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+
+            <div class="row d-block d-md-none mt-2 justify-content-center">
+                <div class="col-lg-4 col-md-6 col-12 my-2 text-center">
+                    <mat-card style="cursor: pointer">
+                        <mat-card-content>
+                            <button (click)="myVoice('confirm')" mat-fab extended color="primary">
+                                <mat-icon class="me-0">person_on</mat-icon>
+                                Continuer avec la session actuelle
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 my-2 text-center">
+                    <mat-card style="cursor: pointer">
+                        <mat-card-content>
+                            <button mat-fab (click)="myVoice('close')" extended color="warn">
+                                <mat-icon>person_off</mat-icon>
+                                Ouvrir une nouvelle session
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

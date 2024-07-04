@@ -1,0 +1,463 @@
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-6 col-10">
+                        <mat-card>
+                            <mat-card-content class="p-1">
+                                <div class="full counter_section mat-elevation-z8 px-2 pt-2 pb-2">
+                                    <div class="text-start">
+                                        <div class="text-start">
+                                            <button mat-fab extended color="warn">
+                                                <mat-icon>description</mat-icon>
+                                                {{ _global_statistique.total_project_validated }}
+                                            </button>
+                                            <!-- LISTE DES PROJETS SUBVENTIONS -->
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <b style="font-size: 14px;" class="text-dark mt-4 text-uppercase fw-bolder">
+                                                Projets validés
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-10">
+                        <mat-card>
+                            <mat-card-content class="p-1">
+                                <div class="full counter_section px-2 pt-2 pb-2">
+                                    <div class="text-start">
+                                        <div class="text-start">
+                                            <button mat-fab extended color="warn">
+                                                <mat-icon>description</mat-icon>
+                                                {{ _global_statistique.total_project_rejected }}
+                                            </button>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <b style="font-size: 14px;" class="text-dark mt-4 text-uppercase fw-bolder">
+                                                Projets rejétés
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-10">
+                        <mat-card>
+                            <mat-card-content class="p-1">
+                                <div class="full counter_section px-2 pt-2 pb-2">
+                                    <div class="text-start">
+                                        <div class="text-start">
+                                            <button mat-fab extended color="warn">
+                                                <mat-icon>description</mat-icon>
+                                                {{ _global_statistique.total_project_traite }}
+                                            </button>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <b style="font-size: 14px;" class="text-dark mt-4 text-uppercase fw-bolder">
+                                                Projets traités
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-10">
+                        <mat-card>
+                            <mat-card-content class="p-1">
+                                <div class="full counter_section px-2 pt-2 pb-2">
+                                    <div class="text-start">
+                                        <div class="text-start">
+                                            <button mat-fab extended color="warn">
+                                                <mat-icon>description</mat-icon>
+                                                {{ _global_statistique.total_project_non_traite }}
+                                            </button>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <b style="font-size: 14px;" class="text-dark mt-4 text-uppercase fw-bolder">
+                                                Projets suspendus
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <hr class="my-2">
+                    <div class="col-lg-3 col-md-6 col-10">
+                        <mat-card>
+                            <mat-card-content class="p-1">
+                                <div class="full counter_section px-2 pt-2 pb-2">
+                                    <div class="text-start">
+                                        <div class="text-start">
+                                            <button mat-fab extended color="warn">
+                                                <mat-icon>description</mat-icon>
+                                                {{ _global_statistique.total_project_soumis }}
+                                            </button>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <b style="font-size: 14px;" class="text-dark mt-4 text-uppercase fw-bolder">
+                                                Projets soumis
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-10">
+                        <mat-card>
+                            <mat-card-content class="p-1">
+                                <div class="full counter_section px-2 pt-2 pb-2">
+                                    <div class="text-start">
+                                        <div class="text-start">
+                                            <button mat-fab extended color="warn">
+                                                <mat-icon>person</mat-icon>
+                                                {{ _global_statistique.total_utilisatteur }}
+                                            </button>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <b style="font-size: 14px;" class="text-dark mt-4 text-uppercase fw-bolder">
+                                                Nombre d'utilisateurs
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-10">
+                        <mat-card>
+                            <mat-card-content class="p-1">
+                                <div class="full counter_section px-2 pt-2 pb-2">
+                                    <div class="text-start">
+                                        <div class="text-start">
+                                            <button mat-fab extended color="warn">
+                                                <mat-icon>person</mat-icon>
+                                                {{ _global_statistique.total_soumissionnaire }}
+                                            </button>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <b style="font-size: 14px;" class="text-dark mt-4 text-uppercase fw-bolder">
+                                                Nombre soumissionnaires
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+                <hr class="mb-3">
+                <div class="col-12">
+                    <mat-card>
+                        <mat-card-content>
+                            <div class="container">
+                                <div class="text-center">
+                                    <hr class="my-1">
+                                    <h3 class="text-center mb-2">
+                                        <b class="ms-2">
+                                            LISTE DES PROJETS SUBVENTIONS
+                                        </b>
+                                    </h3>
+                                    <hr class="my-1">
+                                </div>
+                            </div>
+                            <mat-tab-group>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        <mat-icon class="me-2">list</mat-icon>
+                                        Projets Entreprises
+                                    </ng-template>
+                                    <div class="my-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="fst-italic">#ID</th>
+                                                        <th>TITRE DU PROJET</th>
+                                                        <th>TYPE DE SOUMISSIONNAIRE</th>
+                                                        <th>CODE REF. PROJET</th>
+                                                        <th>STATUT</th>
+                                                        <th class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr [class]="projet.admin_new_actions == 1?'bg-news-actions-off':'bg-news-actions-on'"
+                                                        *ngFor="let projet of _liste_global_commercial_projet | paginate: {id: 'pagination1', itemsPerPage: 20, currentPage: pE }; let i=index">
+                                                        <td>{{ i+1 }}</td>
+                                                        <td style="cursor: pointer" [routerLink]="['/web.administration.commercial.show-project-seleted-details', projet.project_code]">{{
+                                                            projet.titre_projet }}</td>
+                                                        <td>
+                                                            {{ projet.category_projet }}</td>
+                                                        <td>{{
+                                                            projet.project_code }}</td>
+                                                        <td *ngIf="_visitor == true">
+                                                            <button mat-button *ngIf="projet.status == 0" class="bg-warning text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas
+                                                                imputé
+                                                            </button>
+                                                            <button mat-button *ngIf="projet.status == 1" class="bg-success text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà
+                                                                imputé
+                                                            </button>
+                                                        </td>
+                                                        <td *ngIf="_visitor == false">
+                                                            <button mat-button (click)="asignedAsEvaluator(projet)"
+                                                                *ngIf="projet.status == 0"
+                                                                class="bg-warning text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas
+                                                                imputé
+                                                            </button>
+                                                            <button mat-button
+                                                                *ngIf="projet.status == 1"
+                                                                class="bg-success text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà
+                                                                imputé
+                                                            </button>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button mat-mini-fab color="primary"
+                                                                [matMenuTriggerFor]="beforeMenu">
+                                                                <mat-icon class="text-white">more_horiz</mat-icon>
+                                                            </button>
+                                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                                <button mat-menu-item
+                                                                [routerLink]="['/web.administration.commercial.show-project-seleted-details', projet.project_code]">
+                                                                    <mat-icon class="mat-18">visibility</mat-icon> Voir
+                                                                    contenu</button>
+                                                            </mat-menu>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="" *ngIf="is_loading_data_co == true">
+                                                        <td colspan="6">
+                                                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="" *ngIf="_liste_global_commercial_projet.length == 0 && is_loading_data_co == false">
+                                                        <td colspan="6">
+                                                            <div class="text-center">
+                                                                <i class="fa fa-ban text-danger fa-2x"></i>
+                                                                <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="container text-end mt-3">
+                                            <pagination-controls id="pagination1" (pageChange)="pE = $event" previousLabel="Précédent" nextLabel="Suivant">
+                                            </pagination-controls>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        <mat-icon class="me-2">list</mat-icon>
+                                        Projets Organisations
+                                    </ng-template>
+                                    <div class="my-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="fst-italic">#ID</th>
+                                                        <th>TITRE DU PROJET</th>
+                                                        <th>TYPE DE SOUMISSIONNAIRE</th>
+                                                        <th>CODE REF. PROJET</th>
+                                                        <th>STATUT</th>
+                                                        <th class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr [class]="projet.admin_new_actions == 1?'bg-news-actions-off':'bg-news-actions-on'"
+                                                        *ngFor="let projet of _liste_global_non_commercial_projet | paginate: {id: 'pagination2', itemsPerPage: 20, currentPage: pO }; let i=index">
+                                                        <td>{{ i+1 }}</td>
+                                                        <td style="cursor: pointer" [routerLink]="['/web.administration.non-commercial.show-project-seleted-details', projet.project_code]">{{
+                                                            projet.titre_projet }}</td>
+                                                        <td>
+                                                            {{ projet.category_projet }}</td>
+                                                        <td>{{
+                                                            projet.project_code }}</td>
+                                                        <td *ngIf="_visitor == false">
+                                                            <button mat-button (click)="asignedAsEvaluator(projet)"
+                                                                *ngIf="projet.status == 0"
+                                                                class="bg-warning text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas
+                                                                imputé
+                                                            </button>
+                                                            <button mat-button
+                                                                *ngIf="projet.status == 1"
+                                                                class="bg-success text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà
+                                                                imputé
+                                                            </button>
+                                                        </td>
+                                                        <td *ngIf="_visitor == true">
+                                                            <button mat-button *ngIf="projet.status == 0" class="bg-warning text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas
+                                                                imputé
+                                                            </button>
+                                                            <button mat-button *ngIf="projet.status == 1" class="bg-success text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà
+                                                                imputé
+                                                            </button>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button mat-mini-fab color="primary"
+                                                                [matMenuTriggerFor]="beforeMenu">
+                                                                <mat-icon class="text-white">more_horiz</mat-icon>
+                                                            </button>
+                                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                                <button mat-menu-item
+                                                                [routerLink]="['/web.administration.non-commercial.show-project-seleted-details', projet.project_code]">
+                                                                    <mat-icon class="mat-18">visibility</mat-icon> Voir
+                                                                    contenu</button>
+                                                            </mat-menu>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="" *ngIf="is_loading_data_no_co == true">
+                                                        <td colspan="6">
+                                                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="" *ngIf="_liste_global_non_commercial_projet.length == 0 && is_loading_data_no_co == false">
+                                                        <td colspan="6">
+                                                            <div class="text-center">
+                                                                <i class="fa fa-ban text-danger fa-2x"></i>
+                                                                <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="container text-end mt-3">
+                                            <pagination-controls id="pagination2" (pageChange)="pO = $event" previousLabel="Précédent" nextLabel="Suivant">
+                                            </pagination-controls>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </mat-card-content>
+                    </mat-card>
+
+                </div>
+
+                <div class="col-12 mt-3">
+                    <mat-card>
+                        <mat-card-content>
+                            <div class="container">
+                                <div class="text-center">
+                                    <hr class="my-1">
+                                    <h3 class="text-center text-uppercase mb-2">
+                                        <b class="ms-2">
+                                            LISTE DES PROJETS Fonds de garantie
+                                        </b>
+                                    </h3>
+                                    <hr class="my-1">
+                                </div>
+                            </div>
+                            <mat-tab-group>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        <mat-icon class="me-2">list</mat-icon>
+                                        Projets Entreprises <b> & </b> Organisations
+                                    </ng-template>
+                                    <div class="my-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="fst-italic">#ID</th>
+                                                        <th>TITRE DU PROJET</th>
+                                                        <th>TYPE DE SOUMISSIONNAIRE</th>
+                                                        <th>CODE REF. PROJET</th>
+                                                        <th>STATUT</th>
+                                                        <th class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr [class]="projet.admin_new_actions == 1?'bg-news-actions-off':'bg-news-actions-on'"
+                                                        *ngFor="let projet of _liste_global_help_projet | paginate: {id: 'pagination3', itemsPerPage: 20, currentPage: pF }; let i=index">
+                                                        <td>{{ i+1 }}</td>
+                                                        <td style="cursor: pointer" [routerLink]="['/web.administration.help.show-project-seleted-details', projet.project_code]">{{
+                                                            projet.titre_projet }}</td>
+                                                        <td>
+                                                            {{ projet.category_projet }}</td>
+                                                        <td>{{
+                                                            projet.project_code }}</td>
+                                                        <td *ngIf="_visitor == true">
+                                                            <button mat-button *ngIf="projet.status_fond == 0" class="bg-warning text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas
+                                                                imputé
+                                                            </button>
+                                                            <button mat-button *ngIf="projet.status_fond == 1" class="bg-success text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà
+                                                                imputé
+                                                            </button>
+                                                        </td>
+                                                        <td *ngIf="_visitor == false">
+                                                            <button mat-button (click)="asignedAsEvaluator(projet)"
+                                                                *ngIf="projet.status_fond == 0"
+                                                                class="bg-warning text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas
+                                                                imputé
+                                                            </button>
+                                                            <button mat-button
+                                                                *ngIf="projet.status_fond == 1"
+                                                                class="bg-success text-white rounded-pill ">
+                                                                <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà
+                                                                imputé
+                                                            </button>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button mat-mini-fab color="primary"
+                                                                [matMenuTriggerFor]="beforeMenu">
+                                                                <mat-icon class="text-white">more_horiz</mat-icon>
+                                                            </button>
+                                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                                <button mat-menu-item
+                                                                [routerLink]="['/web.administration.help.show-project-seleted-details', projet.project_code]">
+                                                                    <mat-icon class="mat-18">visibility</mat-icon> Voir
+                                                                    contenu</button>
+                                                            </mat-menu>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="" *ngIf="is_loading_data_help == true">
+                                                        <td colspan="6">
+                                                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="" *ngIf="_liste_global_help_projet.length == 0 && is_loading_data_help == false">
+                                                        <td colspan="6">
+                                                            <div class="text-center">
+                                                                <i class="fa fa-ban text-danger fa-2x"></i>
+                                                                <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="container text-end mt-3">
+                                            <pagination-controls id="pagination3" (pageChange)="pF = $event" previousLabel="Précédent" nextLabel="Suivant">
+                                            </pagination-controls>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

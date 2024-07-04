@@ -1,0 +1,55 @@
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="row">
+            <div class="card table-card px-0">
+                <div class="card-header">
+                    <div class="row align-items-center justify-content-between g-2">
+                        <div class="col-auto">
+                            <button  mat-button><mat-icon>list</mat-icon>Liste des niveaux d'instructions </button>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-search">
+                                <i class="ti ti-search"></i>
+                                <input type="search" class="form-control" placeholder="Rechercher un niveau">
+                            </div>
+                        </div>
+                        <div *ngIf="_visitor == false" class="col-auto">
+                            <button (click)="openDialog()" class="text-uppercase default__btn__lg me-2" mat-raised-button color="primary">
+                                <mat-icon>add</mat-icon>
+                                Ajouter un niveau
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="fst-italic">#ID</th>
+                                    <th>Niveau</th>
+                                    <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let niveau of _liste_niveau">
+                                    <td>{{ niveau.id }}</td>
+                                    <td>{{ niveau.niveau_name }}</td>
+                                    <td *ngIf="_visitor == false" class="text-center">
+                                        <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                            <mat-icon class="text-white">more_horiz</mat-icon>
+                                        </button>
+                                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                            <button mat-menu-item (click)="editNiveau(niveau)"> <mat-icon class="mat-18">edit_note</mat-icon> Modifier</button>
+                                            <button mat-menu-item (click)="deleteNiveau(niveau.slug)"> <mat-icon class="mat-18">delete_forever</mat-icon> Supprimer</button>
+                                        </mat-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

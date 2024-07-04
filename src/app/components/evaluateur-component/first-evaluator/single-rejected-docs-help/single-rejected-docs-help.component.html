@@ -1,0 +1,42 @@
+<div mat-dialog-contents>
+    <div class="row py-3">
+        <div class="col-sm-12 p-3">
+            <h2 class="text-center mb-3 text-uppercase fw-bolder">Informations sur le motif du rejet</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="row justify-content-center">
+                            <div class="col-12 mb-3">
+                                <mat-form-field appearance="outline">
+                                    <label for="object" class="form-label">Libellé du document</label>
+                                    <textarea matInput placeholder="Object ici..." required readonly [(ngModel)]="libelle_doc"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h3 class="text-center"><b class="text-warning">Descriptions</b></h3>
+                                <div class="NgxEditor__Wrapper" style="height: 200px !important;">
+                                    <ngx-editor-menu [toolbar]="toolbar" [colorPresets]="colorPresets" [editor]="editor_descriptions"> </ngx-editor-menu>
+                                    <!-- <ngx-editor (input)="storeDataStepFiveAllToLs($event)" [editor]="editor_descriptions" [(ngModel)]="html_descriptions" [disabled]="false" [placeholder]="'Entrer ici...'"></ngx-editor> -->
+                                    <ngx-editor [editor]="editor_descriptions" [(ngModel)]="html_descriptions" [disabled]="false" [placeholder]="'Entrer ici...'"></ngx-editor>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+
+    <button mat-raised-button (click)="close()" class="text-white bg-danger">
+        <mat-icon class="mat-18 me-2 f-18">reply</mat-icon>
+        Retour
+    </button>
+
+    <button mat-raised-button (click)="storeToLs()" class="text-white bg-success">
+        <i class="fa fa-save me-2"></i>
+        Enregistrer
+    </button>
+
+</div>

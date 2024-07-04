@@ -1,0 +1,98 @@
+<div class="pc-container">
+    <div class="pc-content">
+
+        <div *ngIf="_visitor == false" class="container mb-2">
+            <div class="d-flex justify-content-center">
+                <div class="m-3">
+                    <button (click)="goToListeGlobalProjet()" mat-fab extended [color]="is_global_projet == true?'primary':''">
+                        <mat-icon class="me-2">list</mat-icon>
+                        Liste des projets globaux
+                    </button>
+                </div>
+                <div class="m-3">
+                    <button mat-fab extended (click)="goToListeAssignedProjet()" [color]="is_assigned_projet == true?'primary':''">
+                        <mat-icon class="me-2">checklist</mat-icon>
+                        Liste des projets imputés
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="is_global_projet == true">
+            <div class="card table-card px-0">
+                <div class="card-header">
+                    <div class="row align-items-center justify-content-between g-2">
+                        <div class="col-auto">
+                            <button mat-button><mat-icon>list</mat-icon>Liste des projets globaux <span
+                                    class="fw-bold">(Entreprises)</span> </button>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-search">
+                                <i class="ti ti-search"></i>
+                                <input type="search" class="form-control" placeholder="Rechercher un projet">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="fst-italic">#ID</th>
+                                    <th>Code ref. projet</th>
+                                    <th>Titre du projet</th>
+                                    <th>TYPE DE SOUMISSIONNAIRE</th>
+                                    <th>Statut</th>
+                                    <th *ngIf="_visitor == false" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [class]="projet.admin_new_actions == 1?'bg-news-actions-off':'bg-news-actions-on'"
+                                    *ngFor="let projet of _liste_global_projet | paginate: { itemsPerPage: 20, currentPage: p }; let i=index">
+                                    <td>{{ i+1 }}</td>
+                                    <td>{{ projet.project_code }}</td>
+                                    <td style="cursor: pointer" [routerLink]="['/web.administration.commercial.show-project-seleted-details', projet.project_code]">
+                                        {{ projet.titre_projet }}</td>
+                                    <td style="cursor: pointer" [routerLink]="['/web.administration.commercial.show-project-seleted-details', projet.project_code]">{{ projet.category_projet }}</td>
+                                    <td *ngIf="_visitor == false">
+                                        <button mat-button (click)="asignedAsEvaluator(projet)" *ngIf="projet.status == 0" class="bg-warning text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas imputé
+                                        </button>
+                                        <button mat-button *ngIf="projet.status == 1" class="bg-success text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà imputé
+                                        </button>
+                                    </td>
+                                    <td *ngIf="_visitor == true">
+                                        <button mat-button *ngIf="projet.status == 0" class="bg-warning text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas imputé
+                                        </button>
+                                        <button mat-button *ngIf="projet.status == 1" class="bg-success text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà imputé
+                                        </button>
+                                    </td>
+                                    <td *ngIf="_visitor == false" class="text-center">
+                                        <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
+                                            <mat-icon class="text-white">more_horiz</mat-icon>
+                                        </button>
+                                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                            <button mat-menu-item [routerLink]="['/web.administration.commercial.show-project-seleted-details', projet.project_code]"> <mat-icon
+                                                    class="mat-18">visibility</mat-icon> Voir contenu</button>
+                                            <button mat-menu-item *ngIf="projet.status == 0" (click)="asignedAsEvaluator(projet)"><mat-icon
+                                                    class="mat-18">person_search</mat-icon>Imputation</button>
+                                        </mat-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container text-end mt-3">
+                        <pagination-controls (pageChange)="p = $event" previousLabel="Précédent" nextLabel="Suivant">
+                        </pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <app-assigned-projets-commercials *ngIf="is_assigned_projet == true"></app-assigned-projets-commercials>
+    </div>
+</div>

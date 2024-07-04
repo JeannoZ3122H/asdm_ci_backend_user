@@ -1,0 +1,47 @@
+
+<hr class="my-1">
+<h2 *ngIf="is_update == false" class="text-center text-uppercase my-1" mat-dialog-title>Ajouter un document</h2>
+<h2 *ngIf="is_update == true" class="text-center text-uppercase my-1" mat-dialog-title>Modifier un document</h2>
+<hr class="my-1">
+<div mat-dialog-content>
+    <div class="row mt-2" *ngIf="is_update == false">
+        <div [class]="'col-12'">
+            <mat-form-field appearance="outline">
+                <mat-label>Choisissez une catégorie de catégorie</mat-label>
+                <mat-select [value]="type_category_document_name" (selectionChange)="chooseCategory($event)">
+                    <mat-option *ngFor="let type_category_document of _liste_category_docs" [value]="type_category_document">{{ type_category_document.type_document_name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div *ngIf="category_docs_exists == true" class="col-12">
+            <mat-form-field appearance="outline">
+                <mat-label>libellé</mat-label>
+                <textarea [(ngModel)]="document_name" matInput placeholder="...."></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row mt-2" *ngIf="is_update == true">
+        <div [class]="'col-12'">
+            <mat-form-field appearance="outline">
+                <mat-label>{{ type_category_document_name }}</mat-label>
+                <mat-select [value]="type_category_document_name" (selectionChange)="chooseCategory($event)">
+                    <mat-option *ngFor="let type_category_document of _liste_category_docs" [value]="type_category_document">{{ type_category_document.type_document_name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-12">
+            <mat-form-field appearance="outline">
+                <mat-label>libellé</mat-label>
+                <textarea [(ngModel)]="document_name" matInput placeholder="...."></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-raised-button class="text-white bg-danger" mat-dialog-close>
+        <mat-icon>reply</mat-icon>
+        Retour
+    </button>
+    <button *ngIf="is_update == true" mat-raised-button color="primary" (click)="update()">Modifier</button>
+    <button *ngIf="is_update == false" mat-raised-button color="primary" (click)="save()">Enregistrer</button>
+</div>
