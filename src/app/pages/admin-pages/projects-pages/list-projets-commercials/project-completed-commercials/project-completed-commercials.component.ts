@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { CookieService } from 'ngx-cookie-service';
@@ -24,8 +25,9 @@ export class ProjectCompletedCommercialsComponent {
 
     public p: number = 1;
     public evaluator: any = {};
-    public _liste_global_projet_resolved: any = [];
+    public _liste_global_projet_resolved: any[] = [];
     _visitor: boolean = false;
+    public is_loading_data_co: boolean = true;
 
     constructor(
         private _request: ProjetsService,
@@ -33,7 +35,9 @@ export class ProjectCompletedCommercialsComponent {
         private _message: MessageService,
         private _localeStorage: CustomerStorageService,
         private _coockie: CookieService,
-        private _authorized: AuthorizedService
+        private _authorized: AuthorizedService,
+        // new
+        private _snackBar: MatSnackBar
     ){
         let data: any = this._authorized.authorizedUser();
         if(data == true){
@@ -53,6 +57,7 @@ export class ProjectCompletedCommercialsComponent {
             {
                 next: (response: any) => {
                     this._liste_global_projet_resolved = response;
+                    this.is_loading_data_co = false;
                 },
                 error: (error: any) => {
                     let _error = error.error;
@@ -66,6 +71,12 @@ export class ProjectCompletedCommercialsComponent {
                 }
             }
         )
+    }
+    // new
+    openSnackBar(code: string) {
+        this._snackBar.open(`Code ref. du projet: #${code}`, 'Copié',{
+            duration: 2000
+        });
     }
 
 }

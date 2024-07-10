@@ -1,10 +1,13 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
+import { Subscription } from 'rxjs';
 import {
   AsignedProjetNonCommercialEvaluateurComponent,
 } from 'src/app/components/admin-components/asigned-projet-non-commercial-evaluateur/asigned-projet-non-commercial-evaluateur.component';
@@ -24,9 +27,9 @@ import {
     templateUrl: './assigned-projets-non-commercials.component.html',
     styleUrls: ['./assigned-projets-non-commercials.component.css']
 })
-export class AssignedProjetsNonCommercialsComponent implements OnInit {
+export class AssignedProjetsNonCommercialsComponent implements OnInit, OnDestroy {
 
-    public _liste_assigned_projet: any;
+    public _liste_assigned_projet: any[]=[];
     public _liste_niveau: any;
     public niveau_name: string = '';
     public current_niv: any = '';
@@ -35,13 +38,17 @@ export class AssignedProjetsNonCommercialsComponent implements OnInit {
     public is_niveau_2: boolean = false;
 
     _visitor: boolean = false;
+    private unscribe = new Subscription();
+    public is_loading_data_co: boolean = true;
     constructor(
         private _dialog: MatDialog,
         private _request: ProjetsService,
         private _router: Router,
         private _message: MessageService,
         private _request_niveau: NiveauService,
-        private _authorized: AuthorizedService
+        private _authorized: AuthorizedService,
+        // new
+        private _snackBar: MatSnackBar
     ) {
         let data: any = this._authorized.authorizedUser();
         if(data == true){
@@ -53,17 +60,19 @@ export class AssignedProjetsNonCommercialsComponent implements OnInit {
 
     ngOnInit(){
         this.getNiveau();
-        setTimeout(() => {
-            this.ListeProjectAssigned(this._liste_niveau[0].niveau_code, this._liste_niveau[0].niveau_name);
-        }, 1000);
     }
 
     getNiveau(){
+        this.unscribe.add(
         this._request_niveau.getListeNiveau().subscribe(
             {
                 next: (response: any) =>{
                     this._liste_niveau = response;
                     localStorage.setItem('niveau_code_non_commercial', this._liste_niveau[0].niveau_code);
+
+                    setTimeout(() => {
+                        this.ListeProjectAssigned(this._liste_niveau[0].niveau_code, this._liste_niveau[0].niveau_name);
+                    }, 1000);
                 },
                 error: (error: any)=>{
                     if (error.status == 401) {
@@ -74,16 +83,19 @@ export class AssignedProjetsNonCommercialsComponent implements OnInit {
                     }
                 }
             }
-        )
+        ))
     }
 
     ListeProjectAssigned(niveau_code: any, niveau_name: string){
         localStorage.setItem('niveau_code_non_commercial', niveau_code);
         this.current_niv = niveau_name;
+        this.is_loading_data_co = true;
+        this.unscribe.add(
         this._request.getAsignedProjetNonCommercial(niveau_code).subscribe(
             {
                 next: (response: any) =>{
                     this._liste_assigned_projet = response;
+                    this.is_loading_data_co = false;
                 },
                 error: (error: any)=>{
                     if (error.status == 401) {
@@ -94,7 +106,7 @@ export class AssignedProjetsNonCommercialsComponent implements OnInit {
                     }
                 }
             }
-        )
+        ))
     }
 
     reasignedAsEvaluator(data: any) {
@@ -114,5 +126,18 @@ export class AssignedProjetsNonCommercialsComponent implements OnInit {
                 }
             },
         });
+    }
+
+
+
+    // new
+    openSnackBar(code: string) {
+        this._snackBar.open(`Code ref. du projet: #${code}`, 'Copié',{
+            duration: 2000
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.unscribe.unsubscribe();
     }
 }

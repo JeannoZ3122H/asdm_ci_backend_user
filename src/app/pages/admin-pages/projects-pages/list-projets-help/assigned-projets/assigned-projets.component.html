@@ -1,7 +1,7 @@
 <div class="row">
     <div class="card table-card px-0">
         <div class="card-header">
-            <div *ngIf="_visitor == false" class="container">
+            <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-12 d-flex justify-content-center">
 
@@ -38,11 +38,11 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="fst-italic">#ID</th>
-                            <th>Code ref. projet</th>
-                            <th>Titre du projet</th>
-                            <th>Instructeur</th>
+                            <th class="text-center text-wrap">Code ref.</th>
+                            <th class="text-center">Titre du projet</th>
+                            <th class="text-center">Instructeur</th>
                             <th class="text-center">Niveau</th>
-                            <th class="text-center">Statut</th>
+                            <th class="text-center">Statut du projet</th>
                             <th class="text-center">Date début traitement</th>
                             <th class="text-center">Date fin traitement</th>
                             <th *ngIf="_visitor == false" class="text-center">Actions</th>
@@ -52,29 +52,39 @@
                     <tbody>
                         <tr *ngFor="let projet of _liste_assigned_projet | paginate: { itemsPerPage: 20, currentPage: p }; let i=index">
                             <td>{{ i+1 }}</td>
-                            <td>{{ projet.project_code }}</td>
+                            <td>
+                                <button (click)="openSnackBar(projet.project_code)" mat-mini-fab color="default"
+                                class="mat-elevation-z0" [cdkCopyToClipboard]="projet.project_code">
+                                    <mat-icon aria-hidden="false" fontIcon="content_copy"></mat-icon>
+                                </button>
+                            </td>
                             <td class=""> {{ projet.titre_projet }}</td>
                             <td>{{ projet.fname+' '+projet.lname }}</td>
                             <td>{{ current_niv }}</td>
                             <td>
+
                                 <p class="" *ngIf="projet.niveau_code == 'NIV-01'">
-                                    <span class="badge text-white bg-warning"
+                                    <button mat-button class="text-white bg-warning"
                                     *ngIf="projet.status_dossiers == 0 || projet.status_decrets == null">
+                                    <mat-icon class="fa-2x me-1">hourglass_top</mat-icon>
                                         En cours...
-                                    </span>
-                                    <span class="badge text-white bg-success" *ngIf="projet.status_decrets != null && projet.status_dossiers == 1">
+                                    </button>
+                                    <button mat-button class="text-white bg-success" *ngIf="projet.status_decrets != null && projet.status_dossiers == 1">
+                                        <mat-icon class="fa-2x me-1">task</mat-icon>
                                         Traité
-                                    </span>
+                                    </button>
                                 </p>
 
                                 <p class="" *ngIf="projet.niveau_code == 'NIV-02'">
-                                    <span class="badge text-white bg-warning"
+                                    <button mat-button class="text-white bg-warning"
                                     *ngIf="(projet.status_decrets != null || projet.status_etude == 0) && (projet.status_decisions_on == 0 && projet.status_decisions_off == 0)">
+                                        <mat-icon class="fa-2x me-1">hourglass_top</mat-icon>
                                         En cours...
-                                    </span>
-                                    <span class="badge text-white bg-success" *ngIf="projet.status_decisions_on == 1 || projet.status_decisions_off == 1">
+                                    </button>
+                                    <button mat-button class="text-white bg-success" *ngIf="projet.status_decisions_on == 1 || projet.status_decisions_off == 1">
+                                        <mat-icon class="fa-2x me-1">task</mat-icon>
                                         Traité
-                                    </span>
+                                    </button>
                                 </p>
                             </td>
                             <td>{{ projet.date_debut_traitement | date: 'dd MMMM yyyy' }}</td>
@@ -101,6 +111,19 @@
                                     </button>
 
                                 </mat-menu>
+                            </td>
+                        </tr>
+                        <tr class="" *ngIf="is_loading_data_co == true">
+                            <td colspan="9">
+                                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                            </td>
+                        </tr>
+                        <tr class="" *ngIf="_liste_assigned_projet.length == 0 && is_loading_data_co == false">
+                            <td colspan="9">
+                                <div class="text-center">
+                                    <i class="fa fa-ban text-danger fa-2x"></i>
+                                    <p class="mt-2 text-danger">Aucun élément trouvés</p>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

@@ -1,12 +1,14 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { CookieService } from 'ngx-cookie-service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Subscription } from 'rxjs';
 import {
   AsignedProjetEvaluateurComponent,
 } from 'src/app/components/admin-components/asigned-projet-evaluateur/asigned-projet-evaluateur.component';
@@ -31,7 +33,7 @@ import {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit, OnDestroy{
 // polarArea
 public pE: number = 1;
 public pO: number = 1;
@@ -54,16 +56,18 @@ public is_loading_data_no_co: boolean = true;
 public is_loading_data_help: boolean = true;
 
 _visitor: boolean = false;
+private unscribe = new Subscription();
 
     constructor(
         private _dialog: MatDialog,
         private _request: ProjetsService,
         private _router: Router,
         private _message: MessageService,
-        private _loading: NgxUiLoaderService,
         private _coockieService: CookieService,
         private _request_statistique: StatistiqueService,
-        private _authorized: AuthorizedService
+        private _authorized: AuthorizedService,
+        // new
+        private _snackBar: MatSnackBar
     ) {
         let data: any = this._authorized.authorizedUser();
         if(data == true){
@@ -86,6 +90,7 @@ _visitor: boolean = false;
 // ****************** START FUNCTION STATISTIQUE REQUEST TO API ****************** //
     // ************************************************ 😇😇😇😇 //
     getAdminStatistique(){
+        this.unscribe.add(
         this._request_statistique.getStatistiqueAdmin().subscribe(
             {
                 next: (response: any) =>{
@@ -102,7 +107,7 @@ _visitor: boolean = false;
                     }
                 }
             }
-        )
+        ))
     }
 
     // 😇😇 ************************************************ //
@@ -180,6 +185,85 @@ _visitor: boolean = false;
         });
     }
 
+    // new
+    openSnackBar(code: string) {
+        this._snackBar.open(`Code ref. du projet: #${code}`, 'Copié',{
+            duration: 2000
+        });
+    }
+    calculatePeriod(startDate: Date, endDate: Date): number {
+        // Ensure the end date is after the start date
+        if (endDate < startDate) {
+            throw new Error("End date must be after start date.");
+        }
+
+        // Calculate the difference in milliseconds
+        const diffInMs: number = endDate.getTime() - startDate.getTime();
+
+        // Convert milliseconds to days
+        const msInDay: number = 24 * 60 * 60 * 1000;
+        const diffInDays: number = diffInMs / msInDay;
+
+        return diffInDays;
+    }
+    period(data: any, _date: any){
+
+        let result: Boolean = false;
+
+        if(data.status == 1){
+            const date = new Date();
+            const date_debut = _date;
+            const date_fin = this.formatDate(date);
+            const startDate = new Date(date_debut);
+            const endDate = new Date(date_fin);
+            const period = this.calculatePeriod(startDate, endDate);
+            if(period >= 30){
+                if(data.status_decisions_on == 0 && data.status_decisions_off == 0){
+                    result = true;
+                }else{
+                    result = false;
+                }
+            }else{
+                result = false;
+            }
+        }else{
+            result = false;
+        }
+        return result;
+    }
+    periodFond(data: any, _date: any){
+
+        let result: Boolean = false;
+
+        if(data.status_fond == 1){
+            const date = new Date();
+            const date_debut = _date;
+            const date_fin = this.formatDate(date);
+            const startDate = new Date(date_debut);
+            const endDate = new Date(date_fin);
+            const period = this.calculatePeriod(startDate, endDate);
+            if(period >= 30){
+                if(data.status_decisions_on == 0 && data.status_decisions_off == 0){
+                    result = true;
+                }else{
+                    result = false;
+                }
+            }else{
+                result = false;
+            }
+        }else{
+            result = false;
+        }
+        return result;
+    }
+    formatDate(date: Date): string {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois vont de 0 à 11
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
 // 😇😇 ************************************************ //
 // ****************** START FUNCTION REQUEST TO API ****************** //
     // ************************************************ 😇😇😇😇 //
@@ -187,11 +271,11 @@ _visitor: boolean = false;
     // get list projects
     getGlobalProjetCommercial(){
         // this.is_loading_data_co = true;
-        this._request.getGlobalProjetCommercial().subscribe(
+        this.unscribe.add(
+            this._request.getGlobalProjetCommercial().subscribe(
             {
                 next: (response: any) =>{
                     this._liste_global_commercial_projet = response;
-
                     this.is_loading_data_co = false;
                 },
                 error: (error: any)=>{
@@ -202,7 +286,7 @@ _visitor: boolean = false;
                         this._router.navigateByUrl('/');
                     }
                 }
-            }
+            })
         )
     }
 
@@ -211,6 +295,7 @@ _visitor: boolean = false;
     // get list projects
     getGlobalProjetNonCommercial(){
         // this.is_loading_data_no_co = true;
+        this.unscribe.add(
         this._request.getGlobalProjetNonCommercial().subscribe(
             {
                 next: (response: any) =>{
@@ -228,7 +313,7 @@ _visitor: boolean = false;
                     }
                 }
             }
-        )
+        ))
     }
 
 
@@ -236,6 +321,7 @@ _visitor: boolean = false;
     // get list projects
     getGlobalProjetHelp(){
         // this.is_loading_data_help = true;
+        this.unscribe.add(
         this._request.getGlobalProjetHelp().subscribe(
             {
                 next: (response: any) =>{
@@ -252,11 +338,16 @@ _visitor: boolean = false;
                     }
                 }
             }
-        )
+        ))
     }
 
 
     // 😇😇 ************************************************ //
 // ****************** END FUNCTION REQUEST TO API ****************** //
 // ************************************************ 😇😇😇😇 //
+
+
+    ngOnDestroy(): void {
+        this.unscribe.unsubscribe();
+    }
 }

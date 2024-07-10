@@ -1,7 +1,7 @@
 <div class="pc-container">
     <div class="pc-content">
 
-        <div *ngIf="_visitor == false" class="container mb-2">
+        <div class="container mb-2">
             <div class="d-flex justify-content-center">
                 <div class="m-3">
                     <button (click)="goToListeGlobalProjet()" mat-fab extended [color]="is_global_projet == true?'primary':''">
@@ -39,10 +39,10 @@
                             <thead class="bg-light">
                                 <tr>
                                     <th class="fst-italic">#ID</th>
-                                    <th>Code ref. projet</th>
-                                    <th>Titre du projet</th>
-                                    <th>TYPE DE SOUMISSIONNAIRE</th>
-                                    <th>Statut</th>
+                                    <th class="text-wrap text-center">TITRE DU PROJET</th>
+                                    <th class="text-wrap text-center">TYPE DE SOUMISSIONNAIRE</th>
+                                    <th class="text-wrap text-center">CODE REF.</th>
+                                    <th class="text-wrap text-center text-uppercase">Statut du projet</th>
                                     <th *ngIf="_visitor == false" class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -50,25 +50,98 @@
                                 <tr [class]="projet.admin_new_actions == 1?'bg-news-actions-off':'bg-news-actions-on'"
                                     *ngFor="let projet of _liste_global_projet | paginate: { itemsPerPage: 20, currentPage: p }; let i=index">
                                     <td>{{ i+1 }}</td>
-                                    <td>{{ projet.project_code }}</td>
                                     <td style="cursor: pointer" [routerLink]="['/web.administration.help.show-project-seleted-details', projet.project_code]">
                                         {{ projet.titre_projet }}</td>
                                     <td style="cursor: pointer" [routerLink]="['/web.administration.help.show-project-seleted-details', projet.project_code]">{{ projet.category_projet }}</td>
-                                    <td *ngIf="_visitor == false">
-                                        <button mat-button (click)="asignedAsEvaluator(projet)" *ngIf="projet.status_fond == 0" class="bg-warning text-white rounded-pill ">
-                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas imputé
-                                        </button>
-                                        <button mat-button *ngIf="projet.status_fond == 1" class="bg-success text-white rounded-pill ">
-                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà imputé
+
+                                    <td style="cursor: pointer" matTooltip="Cliquer pour copier le code">
+                                        <button (click)="openSnackBar(projet.project_code)" mat-mini-fab color="default"
+                                        class="mat-elevation-z0" [cdkCopyToClipboard]="projet.project_code">
+                                            <mat-icon aria-hidden="false" fontIcon="content_copy"></mat-icon>
                                         </button>
                                     </td>
                                     <td *ngIf="_visitor == true">
-                                        <button mat-button *ngIf="projet.status_fond == 0" class="bg-warning text-white rounded-pill ">
-                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Pas imputé
+
+                                    <!-- IMPUTATION -->
+                                        <button mat-button *ngIf="
+                                        periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                        projet.status_fond == 0" class="bg-warning text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-1">quiz</mat-icon>
+                                            Attente d’imputation
                                         </button>
-                                        <button mat-button *ngIf="projet.status_fond == 1" class="bg-success text-white rounded-pill ">
-                                            <mat-icon class="fa-2x me-2">person_search</mat-icon> Déjà imputé
+
+                                    <!-- INTRUCTEUR -->
+                                        <button mat-button *ngIf="
+                                        periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                            projet.status_fond == 1 && projet.status_decret_decision == 0
+                                        " class="bg-warning text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-1">hourglass_top</mat-icon>
+                                            En cours examen niveau 1
                                         </button>
+
+                                        <button mat-button *ngIf="
+                                            periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                            projet.status_decret_decision == 1 &&
+                                            projet.status_decisions_on == 0 &&
+                                            projet.status_decisions_off == 0
+                                        " class="bg-warning text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-1">hourglass_top</mat-icon>
+                                            En cours examen niveau 2
+                                        </button>
+
+                                    <!-- DECISION -->
+                                        <button mat-button *ngIf="periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                        (projet.status_decisions_on == 1 || projet.status_decisions_off == 1)" class="bg-success text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-1">task</mat-icon>
+                                            Terminé
+                                        </button>
+
+                                        <button mat-button *ngIf="periodFond(projet, projet.created_at | date: 'yyyy-MM-dd')" class="bg-danger text-white rounded-pill ">
+                                            <mat-icon class="fa-2x me-1">more_time</mat-icon>
+                                            Suspendu
+                                        </button>
+                                    </td>
+                                    <td *ngIf="_visitor == false">
+
+                                        <!-- IMPUTATION -->
+                                            <button mat-button *ngIf="
+                                            periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                            projet.status_fond == 0" class="bg-warning text-white rounded-pill ">
+                                                <mat-icon class="fa-2x me-1">quiz</mat-icon>
+                                                Attente d’imputation
+                                            </button>
+
+                                        <!-- INTRUCTEUR -->
+                                            <button mat-button *ngIf="
+                                            periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                                projet.status_fond == 1 && projet.status_decret_decision == 0
+                                            " class="bg-warning text-white rounded-pill ">
+                                                <mat-icon class="fa-2x me-1">hourglass_top</mat-icon>
+                                                En cours examen niveau 1
+                                            </button>
+
+                                            <button mat-button *ngIf="
+                                                periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                                projet.status_decret_decision == 1 &&
+                                                projet.status_decisions_on == 0 &&
+                                                projet.status_decisions_off == 0
+                                            " class="bg-warning text-white rounded-pill ">
+                                                <mat-icon class="fa-2x me-1">hourglass_top</mat-icon>
+                                                En cours examen niveau 2
+                                            </button>
+
+                                        <!-- DECISION -->
+                                            <button mat-button *ngIf="periodFond(projet, projet.created_at | date: 'yyyy-MM-dd') == false &&
+                                            (projet.status_decisions_on == 1 || projet.status_decisions_off == 1)" class="bg-success text-white rounded-pill ">
+                                                <mat-icon class="fa-2x me-1">task</mat-icon>
+                                                Terminé
+                                            </button>
+
+                                            <button mat-button *ngIf="periodFond(projet, projet.created_at | date: 'yyyy-MM-dd')" class="bg-danger text-white rounded-pill ">
+                                                <mat-icon class="fa-2x me-1">more_time</mat-icon>
+                                                Suspendu
+                                            </button>
+
                                     </td>
                                     <td *ngIf="_visitor == false" class="text-center">
                                         <button mat-mini-fab color="primary" [matMenuTriggerFor]="beforeMenu">
